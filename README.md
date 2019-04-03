@@ -1,2 +1,2 @@
 # CESTelstar
-CES
+This is the offical page for Telstar communications. 
