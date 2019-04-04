@@ -1,6 +1,5 @@
-﻿<!DOCTYPE HTML>
-<html>
-<!-- Initilisation of Navigation Bootstrap-->
+﻿<!-- Initilisation of Navigation Bootstrap and Tabs-->
+@*
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,10 +7,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
+*@
 
 @{
     ViewData["Title"] = "Admin";
 }
+
 <div class="text-center">
     <h1 class="display-4">Admin</h1>
     <p>Use this page to Add, Edit and Remove Cities.</p>
@@ -22,6 +23,7 @@
 <!-- Body -->
 <body>
 
+    <!-- Initialise Tabs -->
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
@@ -29,9 +31,11 @@
             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
         </div>
     </nav>
+
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia. Fugiat velit proident aliquip nisi incididunt nostrud exercitation proident est nisi. Irure magna elit commodo anim ex veniam culpa eiusmod id nostrud sit cupidatat in veniam ad. Eiusmod consequat eu adipisicing minim anim aliquip cupidatat culpa excepteur quis. Occaecat sit eu exercitation irure Lorem incididunt nostrud.
+            <p class="display-4">List of Cities in the system are presented below</p>
+            <p>Click a city to edit it</p>
 
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -45,4 +49,3 @@
     </div>
 
 </body>
-</html>
