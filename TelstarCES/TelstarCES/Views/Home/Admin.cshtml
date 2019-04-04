@@ -1,4 +1,8 @@
-﻿<!-- Initilisation of Navigation Bootstrap and Tabs-->
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer Localizer﻿
+
+<!-- Initilisation of Navigation Bootstrap and Tabs-->
 @*
     <head>
         <meta charset="utf-8">
@@ -9,7 +13,6 @@
         <script src="~/wwwroot/css/Adminpage.css"></script>
     </head>
 *@
-
 <!-- Function to dynamically update table -->
 <script>
     function myFunction() {
@@ -22,77 +25,67 @@
     }
 </script>
 
-
 <!-- Page Title and Description -->
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = Localizer﻿["Admin"];
 }
 <div class="text-center">
-    <h1 class="display-4">Admin</h1>
-    <p>Use this page to Add, Edit and Remove Cities.</p>
+    <h1 class="display-4">@Localizer﻿["Admin"]</h1>
+    <p>@Localizer["Use this page to Add, Edit and Remove Cities"]</p>
 </div>
-
-
 
 <!-- PAGE VIEW -->
 <body>
-
     <!-- Initialise Tabs -->
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Cities</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Edit Cities</a>
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">@Localizer﻿["Cities"]</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">@Localizer﻿["Edit Cities"]</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
-
         <!-- Admin Cities Tab -->
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <h1 class="display-4">List of Cities in the system are presented below</h1>
-            <h4>Click a city to edit it</h4>
-
+            <h1 class="display-4">@Localizer﻿["List of Cities in the system are presented below"]</h1>
+            <h4>@Localizer["Click a city to edit it"]</h4>
             <!-- Init Cities Table-->
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">City Name</th>
+                            <th scope="col">@Localizer["City Name"]</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Example</td>
+                            <td>@Localizer["Example"]</td>
                         </tr>
                         <tr>
-                            <td>Example</td>
+                            <td>@Localizer["Example"]</td>
                         </tr>
                         <tr>
-                            <td>Larry</td>
+                            <td>@Localizer﻿["Larry"]</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <button type="button" class="btn btn-light" style="margin-bottom:10px">Add a city</button>
-            <button type="button" class="btn btn-Warning btn-lg btn-block">Save</button>
-
+            <button type="button" class="btn btn-light" style="margin-bottom:10px">@Localizer["Add a city"]</button>
+            <button type="button" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
 
         </div>
-
         <!-- Admin City Tab -->
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <h1 class="display-4">List of City connections in the system are presented below</h1>
-            <h4>Edit a city below</h4>
-
+            <h1 class="display-4">@Localizer["List of City connections in the system are presented below"]</h1>
+            <h4>@Localizer﻿["Edit a city below"]</h4>
             <!-- Init Cities Table-->
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Connected City</th>
-                            <th scope="col">Duration (hrs)</th>
-                            <th scope="col">Price ($)</th>
-                            <th scope="col">Provider</th>
+                            <th scope="col">@Localizer﻿["Connected City"]</th>
+                            <th scope="col">@Localizer﻿["Duration"] (hrs)</th>
+                            <th scope="col">@Localizer["Price"] ($)</th>
+                            <th scope="col">@Localizer﻿["Provider"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -117,10 +110,8 @@
                     </tbody>
                 </table>
             </div>
-
-            <button type="button" class="btnz btnz-light" style="margin-bottom:10px">Add a connection</button>
-            <button type="button" class="btn btn-Warning btn-lg btn-block">Save</button>
+            <button type="button" class="btnz btnz-light" style="margin-bottom:10px">@Localizer﻿["Add a connection"]</button>
+            <button type="button" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
         </div>
-
     </div>
 </body>
