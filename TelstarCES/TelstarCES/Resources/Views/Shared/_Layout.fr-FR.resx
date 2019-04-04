@@ -123,4 +123,7 @@
   <data name="Order" xml:space="preserve">
     <value>Ordre</value>
   </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Intimité</value>
+  </data>
 </root>
