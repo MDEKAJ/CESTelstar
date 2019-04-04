@@ -1,5 +1,18 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Order"];
+}
+
+
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Telstar Logistics</h1>
+<div class="text-center">
+    <h1 class="display-4">Telsar Logistics</h1>
+    <p>Welcome to the Homepage of the Telstar Logicistics Application.</p>
+</div>
+

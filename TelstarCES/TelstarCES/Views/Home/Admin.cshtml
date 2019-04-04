@@ -1,0 +1,127 @@
+﻿<!-- Initilisation of Navigation Bootstrap and Tabs-->
+@*
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="~/wwwroot/css/Adminpage.css"></script>
+    </head>
+*@
+
+<!-- Function to dynamically update table -->
+<script>
+    function myFunction() {
+        var table = document.getElementById("?");
+        var row = table.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = "?";
+        cell2.innerHTML = "?";
+    }
+</script>
+
+
+<!-- Page Title and Description -->
+@{
+    ViewData["Title"] = "Admin";
+}
+<div class="text-center">
+    <h1 class="display-4">Admin</h1>
+    <p>Use this page to Add, Edit and Remove Cities.</p>
+</div>
+
+
+
+<!-- PAGE VIEW -->
+<body>
+
+    <!-- Initialise Tabs -->
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Cities</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Edit Cities</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+
+        <!-- Admin Cities Tab -->
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <h1 class="display-4">List of Cities in the system are presented below</h1>
+            <h4>Click a city to edit it</h4>
+
+            <!-- Init Cities Table-->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">City Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Example</td>
+                        </tr>
+                        <tr>
+                            <td>Example</td>
+                        </tr>
+                        <tr>
+                            <td>Larry</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button" class="btn btn-light" style="margin-bottom:10px">Add a city</button>
+            <button type="button" class="btn btn-Warning btn-lg btn-block">Save</button>
+
+
+        </div>
+
+        <!-- Admin City Tab -->
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <h1 class="display-4">List of City connections in the system are presented below</h1>
+            <h4>Edit a city below</h4>
+
+            <!-- Init Cities Table-->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Connected City</th>
+                            <th scope="col">Duration (hrs)</th>
+                            <th scope="col">Price ($)</th>
+                            <th scope="col">Provider</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Example</th>
+                            <td>Example</td>
+                            <td>Example</td>
+                            <td>Example</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Example</th>
+                            <td>Example</td>
+                            <td>Thornton</td>
+                            <td>Example</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Example</th>
+                            <td>Example</td>
+                            <td>Example</td>
+                            <td>Example</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button" class="btnz btnz-light" style="margin-bottom:10px">Add a connection</button>
+            <button type="button" class="btn btn-Warning btn-lg btn-block">Save</button>
+
+        </div>
+
+    </div>
+</body>

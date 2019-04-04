@@ -4,20 +4,28 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using TelstarCES.Models;
 
 namespace TelstarCES.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IStringLocalizer<HomeController> _localizer;
+
+        public HomeController(IStringLocalizer<HomeController> localizer)
+        {
+            _localizer = localizer;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Order()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = _localizer["Your application description page."];
 
             return View();
         }
@@ -29,7 +37,7 @@ namespace TelstarCES.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Admin()
         {
             return View();
         }
