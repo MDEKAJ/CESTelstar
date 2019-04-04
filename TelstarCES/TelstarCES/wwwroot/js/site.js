@@ -103,3 +103,16 @@ function deleteConnection(connection, callback) {
         callback(response)
     });
 };
+
+function getParcelTypes(callback) {
+    $.getJSON("/api/ParcelType/ParcelTypes", null, function (response) {
+        callback(response);
+    });
+}
+
+function getParcelType(ParcelTypeId, callback) {
+    $.getJSON("/api/ParcelType",
+        { "ParcelTypeId": ParcelTypeId }, function (response) {
+            callback(response);
+        });
+}
