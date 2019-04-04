@@ -14,7 +14,7 @@ namespace TelstarCES.Data.Models
         public virtual int SegmentId { get; set; }
 
         [Required]
-        public virtual Order Order { get; set; }
+        public virtual int OrderId { get; set; }
 
         [Required]
         public virtual float Price { get; set; }

@@ -34,7 +34,7 @@ namespace TelstarCES.Controllers
                 return false;
             }
 
-            if (order.Segments == null || order.Customer == null || order.ParcelType == null)
+            if (order.Customer == null || order.ParcelTypeId < 0)
             {
                 return false;
             }
