@@ -1,5 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Order"];
 }
 
 <h1>Telstar Logistics</h1>
