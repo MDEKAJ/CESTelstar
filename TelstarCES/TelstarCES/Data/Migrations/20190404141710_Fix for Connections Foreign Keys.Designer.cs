@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TelstarCES.Data;
 
 namespace TelstarCES.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190404141710_Fix for Connections Foreign Keys")]
+    partial class FixforConnectionsForeignKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,9 +206,9 @@ namespace TelstarCES.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("City1Id");
+                    b.Property<int?>("City1Id");
 
-                    b.Property<int>("City2Id");
+                    b.Property<int?>("City2Id");
 
                     b.Property<int?>("CityId");
 
@@ -218,6 +220,10 @@ namespace TelstarCES.Data.Migrations
                         .IsRequired();
 
                     b.HasKey("ConnectionId");
+
+                    b.HasIndex("City1Id");
+
+                    b.HasIndex("City2Id");
 
                     b.HasIndex("CityId");
 
@@ -285,6 +291,14 @@ namespace TelstarCES.Data.Migrations
 
             modelBuilder.Entity("TelstarCES.Data.Models.Connection", b =>
                 {
+                    b.HasOne("TelstarCES.Data.Models.City", "City1")
+                        .WithMany()
+                        .HasForeignKey("City1Id");
+
+                    b.HasOne("TelstarCES.Data.Models.City", "City2")
+                        .WithMany()
+                        .HasForeignKey("City2Id");
+
                     b.HasOne("TelstarCES.Data.Models.City")
                         .WithMany("Connections")
                         .HasForeignKey("CityId");
