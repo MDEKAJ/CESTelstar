@@ -15,13 +15,35 @@
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
 
-<div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
-    <form id="selectLanguage" asp-controller="Home" 
-          asp-action="SetLanguage" asp-route-returnUrl="@returnUrl" 
-          method="post" class="form-horizontal" role="form">
-        <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> <select name="culture"
-                                                                                                               onchange="this.form.submit();"
-                                                                                                               asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
-        </select>
-    </form>
-</div>
+<table style="border-spacing: 10px;">
+    <tr>
+        <td>
+            @using (Html.BeginForm("SetLanguage", "Home", new { culture = "en", returnUrl = returnUrl }, FormMethod.Post))
+            {
+                <input id="btnSubmit" type="image" src="~/images/uj.png" width="75" height="40" value="English" />
+            }
+        </td>
+        
+        <td>
+        @using (Html.BeginForm("SetLanguage", "Home", new {culture = "fr-FR", returnUrl = returnUrl}, FormMethod.Post))
+        {
+            <input id="btnSubmit" type="image" src="~/images/french.png" width="75" height="40" value="French"/>
+        }
+        </td>
+    </tr>
+</table>
+@*
+
+
+
+    <div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+        <form id="selectLanguage" asp-controller="Home"
+              asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
+              method="post" class="form-horizontal" role="form">
+            <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label>
+            <select name="culture" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+            </select>
+        </form>
+    </div>
+
+*@
