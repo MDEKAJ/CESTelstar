@@ -20,10 +20,13 @@ namespace TelstarCES.Data
         {
         }
 
-        public ApplicationDbContext()
-            : base(new DbContextOptions<ApplicationDbContext>())
+        protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<City>()
+                .HasMany<Connection>(c => c.Connections)
+                .WithOne();
 
+            base.OnModelCreating(builder);
         }
     }
 }
