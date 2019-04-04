@@ -19,11 +19,5 @@ namespace TelstarCES.Data
             : base(options)
         {
         }
-
-        public ApplicationDbContext()
-            : base(new DbContextOptions<ApplicationDbContext>())
-        {
-
-        }
     }
 }

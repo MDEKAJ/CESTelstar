@@ -11,49 +11,44 @@ namespace TelstarCES.Services
 {
     public class DataService : IDataService
     {
+        private readonly ApplicationDbContext _db;
+
+        public DataService(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         #region CITY
 
         public async Task<City> GetCity(int cityId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Cities.FirstOrDefaultAsync(c => c.CityId == cityId);
-            }
+            return await _db.Cities.FirstOrDefaultAsync(c => c.CityId == cityId);
+          
         }
 
         public async Task<City[]> GetCities()
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Cities.ToArrayAsync();
-            }
+            return await _db.Cities.ToArrayAsync();
+          
         }
 
         public async Task<bool> AddCity(City city)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                await db.Cities.AddAsync(city);
-                return await db.SaveChangesAsync() > 0;
-            }
+            await _db.Cities.AddAsync(city);
+            return await _db.SaveChangesAsync() > 0;
+            
         }
 
         public async Task<bool> UpdateCity(City city)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Cities.Update(city);
-                return await db.SaveChangesAsync() > 0;
-            }
+            _db.Cities.Update(city);
+            return await _db.SaveChangesAsync() > 0;            
         }
 
         public async Task<bool> DeleteCity(City city)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Cities.Remove(city);
-                return await db.SaveChangesAsync() > 0;
-            }
+            _db.Cities.Remove(city);
+            return await _db.SaveChangesAsync() > 0;
         }
 
         #endregion CITY
@@ -62,53 +57,35 @@ namespace TelstarCES.Services
 
         public async Task<Connection> GetConnection(int connectionId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Connections.FirstOrDefaultAsync(c => c.ConnectionId == connectionId);
-            }
+            return await _db.Connections.FirstOrDefaultAsync(c => c.ConnectionId == connectionId);
         }
 
         public async Task<Connection[]> GetConnections(int cityId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Connections.Where(c => c.City1.CityId == cityId || c.City2.CityId == cityId).ToArrayAsync();
-            }
+            return await _db.Connections.Where(c => c.City1Id == cityId || c.City2Id == cityId).ToArrayAsync();
         }
 
         public async Task<Connection[]> GetConnections()
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Connections.ToArrayAsync();
-            }
+            return await _db.Connections.ToArrayAsync();
         }
 
         public async Task<bool> AddConnection(Connection connection)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                await db.Connections.AddAsync(connection);
-                return await db.SaveChangesAsync() > 0;
-            }
+            await _db.Connections.AddAsync(connection);
+            return await _db.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> UpdateConnection(Connection connection)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Connections.Update(connection);
-                return await db.SaveChangesAsync() > 0;
-            }
+            _db.Connections.Update(connection);
+            return await _db.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DeleteConnection(Connection connection)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Connections.Remove(connection);
-                return await db.SaveChangesAsync() > 0;
-            }
+            _db.Connections.Remove(connection);
+            return await _db.SaveChangesAsync() > 0;
         }
 
         #endregion
@@ -117,18 +94,12 @@ namespace TelstarCES.Services
 
         public async Task<ParcelType> GetParcelType(int parcelTypeId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.ParcelTypes.FirstOrDefaultAsync(pt => pt.ParcelTypeId == parcelTypeId);
-            }
+            return await _db.ParcelTypes.FirstOrDefaultAsync(pt => pt.ParcelTypeId == parcelTypeId);
         }
 
         public async Task<ParcelType[]> GetParcelTypes()
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.ParcelTypes.ToArrayAsync();
-            }
+            return await _db.ParcelTypes.ToArrayAsync();
         }
 
         #endregion
