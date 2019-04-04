@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Home\images\**" />
+    <Content Remove="Views\Home\images\**" />
+    <EmbeddedResource Remove="Views\Home\images\**" />
+    <None Remove="Views\Home\images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Data\Migrations\20190404140218_Fix for Connections Foreign Keys.cs" />
     <Compile Remove="Data\Migrations\20190404140218_Fix for Connections Foreign Keys.Designer.cs" />
   </ItemGroup>
@@ -19,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Home\images\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
