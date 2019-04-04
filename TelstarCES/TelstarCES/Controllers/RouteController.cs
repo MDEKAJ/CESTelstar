@@ -16,7 +16,7 @@ namespace TelstarCES.Controllers
     {
         private readonly IDataService _dataService;
         private readonly HttpClient client = new HttpClient();
-        private const string OceanicAirlinesDomain = "https://airlines";
+        private const string OceanicAirlinesDomain = "http://wa-oadk.azurewebsites.net";
         private const string TradingCompanyDomain = "http://wa-eitdk.azurewebsites.net";
 
         public RouteController(ApplicationDbContext db)
@@ -44,8 +44,8 @@ namespace TelstarCES.Controllers
                 var uri = new UriBuilder(
                     $"{OceanicAirlinesDomain}/api/route?fromName={Uri.EscapeDataString(fromName)}&toName={Uri.EscapeDataString(toName)}&parcelType={Uri.EscapeDataString(parcelType)}&weight={weight}&filter={filter}");
                 var response = await client.GetAsync(uri.Uri.AbsoluteUri);
-
-                return JsonConvert.DeserializeObject<ExternalRouteModel>(await response.Content.ReadAsStringAsync());
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ExternalRouteModel>(json);
             }
             catch(Exception e)
             {
@@ -63,8 +63,8 @@ namespace TelstarCES.Controllers
                 var uri = new UriBuilder(
                     $"{TradingCompanyDomain}/api/route/get?fromName={Uri.EscapeDataString(fromName)}&toName={Uri.EscapeDataString(toName)}&parcelType={Uri.EscapeDataString(parcelType)}&weight={weight}&filter={filter}");
                 var response = await client.GetAsync(uri.Uri.AbsoluteUri);
-
-                return JsonConvert.DeserializeObject<ExternalRouteModel>(await response.Content.ReadAsStringAsync());
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ExternalRouteModel>(json);
             }
             catch(Exception e)
             {
