@@ -39,11 +39,17 @@ namespace TelstarCES.Services
 
         #endregion
 
-        #region
+        #region PARCEL_TYPES
 
         Task<ParcelType> GetParcelType(int parcelTypeId);
 
         Task<ParcelType[]> GetParcelTypes();
+
+        #endregion
+
+        #region ORDER
+
+        Task<bool> AddOrder(Order order);
 
         #endregion
     }

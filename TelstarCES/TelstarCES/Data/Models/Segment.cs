@@ -10,6 +10,9 @@ namespace TelstarCES.Data.Models
 {
     public class Segment
     {
+        [Key]
+        public virtual int SegmentId { get; set; }
+
         [Required]
         public virtual Order Order { get; set; }
 
