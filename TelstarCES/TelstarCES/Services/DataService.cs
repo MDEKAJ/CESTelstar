@@ -23,7 +23,11 @@ namespace TelstarCES.Services
         public async Task<City> GetCity(int cityId)
         {
             return await _db.Cities.FirstOrDefaultAsync(c => c.CityId == cityId);
-          
+        }
+
+        public async Task<City> GetCity(string name)
+        {
+            return await _db.Cities.FirstOrDefaultAsync(c => string.Equals(c.CityName, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public async Task<City[]> GetCities()
