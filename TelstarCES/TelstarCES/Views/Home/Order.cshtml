@@ -20,15 +20,120 @@
             <a class="nav-item nav-link" id="nav-receipt-tab" data-toggle="tab" href="#nav-receipt" role="tab" aria-controls="nav-contact" aria-selected="false">Receipt</a>
         </div>
     </nav>
+
+    <!-- Display Tabs-->
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab">
-            <p class="display-4">Place your order here</p>
-            <p>Click a city to edit it</p>
+
+        <!-- Display Order Tab-->
+        <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+            <!-- Order Card -->
+            <div class="card text-center">
+                <div class="card-header">
+                    Place your order here
+                </div>
+                <div class="card-body">
+
+                    <!-- Order Drop-Down -->
+                    <div class="dropdown" style="margin-bottom:15px;">
+
+                        <!-- Starting Location Dropdown  -->
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Starting Location
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Example</a>
+                        </div>
+
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ending Destination
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Example</a>
+                        </div>
+
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Parcel Type
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Example</a>
+                        </div>
+
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Parcel Weight
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Example</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Footer -->
+                <div class="card-footer text-muted" style="position:relative;">
+
+                    <!-- Material unchecked -->
+                    <div class="custom-control custom-checkbox" style="margin:10px">
+                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                        <label class="custom-control-label" for="defaultUnchecked">Add recommended delivery (additional fee)</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" style="margin:15px">Search</button>
+
+                </div>
+            </div>
         </div>
+
+
+        <!-- Confirmation Tab-->
         <div class="tab-pane fade" id="nav-confirmation" role="tabpanel" aria-labelledby="nav-profile-tab">
-            Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia. Fugiat velit proident aliquip nisi incididunt nostrud exercitation proident est nisi. Irure magna elit commodo anim ex veniam culpa eiusmod id nostrud sit cupidatat in veniam ad. Eiusmod consequat eu adipisicing minim anim aliquip cupidatat culpa excepteur quis. Occaecat sit eu exercitation irure Lorem incididunt nostrud.
+
+            <div class="card">
+                <div class="card-header">
+                    Featured
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+            <!-- Routing Table-->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col"> Origin </th>
+                            <th scope="col">Duration (hrs)</th>
+                            <th scope="col">Price ($)</th>
+                            <th scope="col">Provider</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Example</th>
+                            <td>Example</td>
+                            <td>Example</td>
+                            <td>Example</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Example</th>
+                            <td>Example</td>
+                            <td>Thornton</td>
+                            <td>Example</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Example</th>
+                            <td>Example</td>
+                            <td>Example</td>
+                            <td>Example</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
+
+        <!-- Receipt Tab -->
         <div class="tab-pane fade" id="nav-receipt" role="tabpanel" aria-labelledby="nav-contact-tab">
             Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia. Fugiat velit proident aliquip nisi incididunt nostrud exercitation proident est nisi. Irure magna elit commodo anim ex veniam culpa eiusmod id nostrud sit cupidatat in veniam ad. Eiusmod consequat eu adipisicing minim anim aliquip cupidatat culpa excepteur quis. Occaecat sit eu exercitation irure Lorem incididunt nostrud.
 
