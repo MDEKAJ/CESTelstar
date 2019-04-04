@@ -16,7 +16,7 @@ namespace TelstarCES.Controllers
     {
         private readonly IDataService _dataService;
         private readonly HttpClient client = new HttpClient();
-        private const string OceanicAirlinesDomain = "https://airlines";
+        private const string OceanicAirlinesDomain = "http://wa-oadk.azurewebsites.net";
         private const string TradingCompanyDomain = "http://wa-eitdk.azurewebsites.net";
 
         public RouteController(ApplicationDbContext db)
