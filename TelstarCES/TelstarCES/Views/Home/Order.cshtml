@@ -11,7 +11,6 @@
     <p>Use this page to find a route based on your starting location and ending location.</p>
 </div>
 
-<body>
     <!-- Initialise Tabs -->
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -24,7 +23,7 @@
     <!-- Display Tabs-->
     <div class="tab-content" id="nav-tabContent">
 
-        <!-- Display Order Tab-->
+        <!------------------------------------------------------------Order Tab ------------------------------------------------------------------>
         <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
 
             <!-- Order Card -->
@@ -35,7 +34,7 @@
                 <div class="card-body">
 
                     <!-- Order Drop-Down -->
-                    <div class="dropdown" style="margin-bottom:15px;">
+                    <div class="dropdown" style="margin-bottom:100px;margin-right:10px; ">
 
                         <!-- Starting Location Dropdown  -->
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -83,60 +82,154 @@
         </div>
 
 
-        <!-- Confirmation Tab-->
-        <div class="tab-pane fade" id="nav-confirmation" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-            <div class="card">
+        <!-- ---------------------------------------------------- Confirmation Tab -------------------------------------------------------------------------------------------->
+        <div class="tab-pane fade" id="nav-confirmation" role="tabpanel" aria-labelledby="nav-profile-tab" style="margin-top:15px;">
+
+            <!-- Order Card -->
+            <div class="card text-left">
                 <div class="card-header">
-                    Featured
+                    Route Information
                 </div>
+
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                    <!-- Routing Table-->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Origin</th>
+                                    <th scope="col">Destination</th>
+                                    <th scope="col">Duration (hrs)</th>
+                                    <th scope="col">Price ($)</th>
+                                    <th scope="col">Provider</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>d</td>
+                                    <td>d</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>d</td>
+                                    <td>d</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>d</td>
+                                    <td>d</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Routing Table-->
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"> Origin </th>
-                            <th scope="col">Duration (hrs)</th>
-                            <th scope="col">Price ($)</th>
-                            <th scope="col">Provider</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Example</td>
-                            <td>Example</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Thornton</td>
-                            <td>Example</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Example</td>
-                            <td>Example</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- Customer Information Card -->
+            <!--  Header-->
+            <div class="card text-left" style="margin-top:30px">
+                <div class="card-header">
+                    Customer information
+                </div>
 
+                <!-- Body -->
+                <div class="card-body">
+                    <form>
+
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationDefault01">First name</label>
+                                <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationDefault02">Last name</label>
+                                <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row" style="margin-top:25px;">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">First Line of Address</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="First Line of Adress" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">Second Line of Address</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="Second Line of Adress" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">City</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="City" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationDefault04">Country</label>
+                                <input type="text" class="form-control" id="validationDefault04" placeholder="Country" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationDefault05">Zip</label>
+                                <input type="text" class="form-control" id="validationDefault05" placeholder="Zip" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row" style="margin-top:25px">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">Phone Number</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">E-mail Address</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="example@gmail.com" required>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <!-- Receipt Tab -->
+
+
+
+        <!-- -------------------------------------------------------Receipt Tab ---------------------------------------------------------------------------------->
         <div class="tab-pane fade" id="nav-receipt" role="tabpanel" aria-labelledby="nav-contact-tab">
-            Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia. Fugiat velit proident aliquip nisi incididunt nostrud exercitation proident est nisi. Irure magna elit commodo anim ex veniam culpa eiusmod id nostrud sit cupidatat in veniam ad. Eiusmod consequat eu adipisicing minim anim aliquip cupidatat culpa excepteur quis. Occaecat sit eu exercitation irure Lorem incididunt nostrud.
+
+            <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+                <!-- Order Card -->
+                <div class="card text-left">
+                    <div class="card-header">
+                        The order has been completed successfully, the order ID is presented below.
+                    </div>
+
+                    <div class="card-body">
+
+                        <input class="form-control" type="text" placeholder="#123..." value="" readonly>
+
+
+
+                    </div>
+
+                    <!-- Tab Footer -->
+                    <div class="card-footer text-muted" style="position:relative;">
+                        <button type="button" class="btn btn-secondary" style="margin:15px" onclick="window.location.href = '/Home/Order'">New Order</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
         </div>
     </div>
-</body>
