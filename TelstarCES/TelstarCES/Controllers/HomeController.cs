@@ -23,7 +23,7 @@ namespace TelstarCES.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Order()
         {
             ViewData["Message"] = _localizer["Your application description page."];
 
@@ -37,7 +37,7 @@ namespace TelstarCES.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Admin()
         {
             return View();
         }
