@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,11 +13,11 @@ namespace TelstarCES.Data.Models
         public virtual int ConnectionId { get; set; }
 
         [Required]
-        public virtual City City1 { get; set; }
-
+        public int City1Id { get; set; }
+        
         [Required]
-        public virtual City City2 { get; set; }
-
+        public int City2Id { get; set; }
+        
         [Required]
         public virtual string Provider { get; set; }
 

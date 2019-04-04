@@ -13,122 +13,86 @@ namespace TelstarCES.Services
     {
         #region CITY
 
-        public async Task<City> GetCity(int cityId)
+        public async Task<City> GetCity(ApplicationDbContext db, int cityId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Cities.FirstOrDefaultAsync(c => c.CityId == cityId);
-            }
+            return await db.Cities.FirstOrDefaultAsync(c => c.CityId == cityId);
+          
         }
 
-        public async Task<City[]> GetCities()
+        public async Task<City[]> GetCities(ApplicationDbContext db)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Cities.ToArrayAsync();
-            }
+            return await db.Cities.ToArrayAsync();
+          
         }
 
-        public async Task<bool> AddCity(City city)
+        public async Task<bool> AddCity(ApplicationDbContext db, City city)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                await db.Cities.AddAsync(city);
-                return await db.SaveChangesAsync() > 0;
-            }
+            await db.Cities.AddAsync(city);
+            return await db.SaveChangesAsync() > 0;
+            
         }
 
-        public async Task<bool> UpdateCity(City city)
+        public async Task<bool> UpdateCity(ApplicationDbContext db, City city)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Cities.Update(city);
-                return await db.SaveChangesAsync() > 0;
-            }
+            db.Cities.Update(city);
+            return await db.SaveChangesAsync() > 0;            
         }
 
-        public async Task<bool> DeleteCity(City city)
+        public async Task<bool> DeleteCity(ApplicationDbContext db, City city)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Cities.Remove(city);
-                return await db.SaveChangesAsync() > 0;
-            }
+            db.Cities.Remove(city);
+            return await db.SaveChangesAsync() > 0;
         }
 
         #endregion CITY
 
         #region CONNECTION
 
-        public async Task<Connection> GetConnection(int connectionId)
+        public async Task<Connection> GetConnection(ApplicationDbContext db, int connectionId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Connections.FirstOrDefaultAsync(c => c.ConnectionId == connectionId);
-            }
+            return await db.Connections.FirstOrDefaultAsync(c => c.ConnectionId == connectionId);
         }
 
-        public async Task<Connection[]> GetConnections(int cityId)
+        public async Task<Connection[]> GetConnections(ApplicationDbContext db, int cityId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Connections.Where(c => c.City1.CityId == cityId || c.City2.CityId == cityId).ToArrayAsync();
-            }
+            return await db.Connections.Where(c => c.City1Id == cityId || c.City2Id == cityId).ToArrayAsync();
         }
 
-        public async Task<Connection[]> GetConnections()
+        public async Task<Connection[]> GetConnections(ApplicationDbContext db)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.Connections.ToArrayAsync();
-            }
+            return await db.Connections.ToArrayAsync();
         }
 
-        public async Task<bool> AddConnection(Connection connection)
+        public async Task<bool> AddConnection(ApplicationDbContext db, Connection connection)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                await db.Connections.AddAsync(connection);
-                return await db.SaveChangesAsync() > 0;
-            }
+            await db.Connections.AddAsync(connection);
+            return await db.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> UpdateConnection(Connection connection)
+        public async Task<bool> UpdateConnection(ApplicationDbContext db, Connection connection)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Connections.Update(connection);
-                return await db.SaveChangesAsync() > 0;
-            }
+            db.Connections.Update(connection);
+            return await db.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeleteConnection(Connection connection)
+        public async Task<bool> DeleteConnection(ApplicationDbContext db, Connection connection)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                db.Connections.Remove(connection);
-                return await db.SaveChangesAsync() > 0;
-            }
+            db.Connections.Remove(connection);
+            return await db.SaveChangesAsync() > 0;
         }
 
         #endregion
 
         #region PARCEL_TYPES
 
-        public async Task<ParcelType> GetParcelType(int parcelTypeId)
+        public async Task<ParcelType> GetParcelType(ApplicationDbContext db, int parcelTypeId)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.ParcelTypes.FirstOrDefaultAsync(pt => pt.ParcelTypeId == parcelTypeId);
-            }
+            return await db.ParcelTypes.FirstOrDefaultAsync(pt => pt.ParcelTypeId == parcelTypeId);
         }
 
-        public async Task<ParcelType[]> GetParcelTypes()
+        public async Task<ParcelType[]> GetParcelTypes(ApplicationDbContext db)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                return await db.ParcelTypes.ToArrayAsync();
-            }
+            return await db.ParcelTypes.ToArrayAsync();
         }
 
         #endregion
