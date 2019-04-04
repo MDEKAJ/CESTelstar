@@ -54,3 +54,52 @@ function deleteCity(city, callback) {
         callback(response);
     });
 };
+
+function getConnections(callback) {
+    $.getJSON("/api/Connection/Connections", null, function (response) {
+            callback(response);
+        });
+}
+
+function getConnection(connectionId, callback) {
+    $.getJSON("/api/connection",
+        { "ConnectionId": connectionId }, function (response) {
+            callback(response);
+        });
+}
+
+function addConnection(connection, callback) {
+    $.ajax({
+        url: '/api/Connection',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(connection),
+        dataType: 'json'
+    }).done(function (response) {
+        callback(response)
+    });
+};
+
+function updateConnection(connection, callback) {
+    $.ajax({
+        url: '/api/Connection',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(connection),
+        dataType: 'json'
+    }).done(function (response) {
+        callback(response)
+    });
+};
+
+function deleteConnection(connection, callback) {
+    $.ajax({
+        url: '/api/Connection',
+        type: 'DELETE',
+        contentType: 'application/json',
+        data: JSON.stringify(connection),
+        dataType: 'json'
+    }).done(function (response) {
+        callback(response)
+    });
+};
