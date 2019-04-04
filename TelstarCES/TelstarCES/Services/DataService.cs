@@ -106,10 +106,11 @@ namespace TelstarCES.Services
 
         #region ORDER
 
-        public async Task<bool> AddOrder(Order order)
+        public async Task<int> AddOrder(Order order)
         {
             await _db.Orders.AddAsync(order);
-            return await _db.SaveChangesAsync() > 0;
+            await _db.SaveChangesAsync();
+            return order.OrderId;
         }
 
         #endregion

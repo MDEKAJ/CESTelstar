@@ -49,7 +49,7 @@ namespace TelstarCES.Services
 
         #region ORDER
 
-        Task<bool> AddOrder(Order order);
+        Task<int> AddOrder(Order order);
 
         #endregion
     }

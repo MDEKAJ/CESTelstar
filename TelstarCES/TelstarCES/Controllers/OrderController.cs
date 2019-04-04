@@ -22,21 +22,21 @@ namespace TelstarCES.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Post(Order order)
+        public async Task<int> Post(Order order)
         {
             if (string.IsNullOrWhiteSpace(order?.FromCity) || string.IsNullOrWhiteSpace(order.ToCity))
             {
-                return false;
+                return -1;
             }
 
             if (order.Weight < 0 || order.TotalDuration < 0 || order.TotalPrice < 0)
             {
-                return false;
+                return -1;
             }
 
-            if (order.Customer == null || order.ParcelTypeId < 0)
+            if (order.Segments == null || order.Customer == null || order.ParcelType == null)
             {
-                return false;
+                return -1;
             }
 
             return await _dataService.AddOrder(order);
