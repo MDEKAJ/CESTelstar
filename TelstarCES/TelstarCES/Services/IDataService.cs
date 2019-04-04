@@ -11,39 +11,39 @@ namespace TelstarCES.Services
     {
         #region CITY
 
-        Task<City> GetCity(ApplicationDbContext db, int cityId);
+        Task<City> GetCity(int cityId);
 
-        Task<City[]> GetCities(ApplicationDbContext db);
+        Task<City[]> GetCities();
 
-        Task<bool> AddCity(ApplicationDbContext db, City city);
+        Task<bool> AddCity(City city);
 
-        Task<bool> UpdateCity(ApplicationDbContext db, City city);
+        Task<bool> UpdateCity(City city);
 
-        Task<bool> DeleteCity(ApplicationDbContext db, City city);
+        Task<bool> DeleteCity(City city);
 
         #endregion
 
         #region CONNECTIONS
 
-        Task<Connection> GetConnection(ApplicationDbContext db, int connectionId);
+        Task<Connection> GetConnection(int connectionId);
 
-        Task<Connection[]> GetConnections(ApplicationDbContext db, int cityId);
+        Task<Connection[]> GetConnections(int cityId);
 
-        Task<Connection[]> GetConnections(ApplicationDbContext db);
+        Task<Connection[]> GetConnections();
 
-        Task<bool> AddConnection(ApplicationDbContext db, Connection connection);
+        Task<bool> AddConnection(Connection connection);
 
-        Task<bool> UpdateConnection(ApplicationDbContext db, Connection connection);
+        Task<bool> UpdateConnection(Connection connection);
 
-        Task<bool> DeleteConnection(ApplicationDbContext db, Connection connection);
+        Task<bool> DeleteConnection(Connection connection);
 
         #endregion
 
         #region
 
-        Task<ParcelType> GetParcelType(ApplicationDbContext db, int parcelTypeId);
+        Task<ParcelType> GetParcelType(int parcelTypeId);
 
-        Task<ParcelType[]> GetParcelTypes(ApplicationDbContext db);
+        Task<ParcelType[]> GetParcelTypes();
 
         #endregion
     }
