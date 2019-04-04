@@ -15,7 +15,12 @@ namespace TelstarCES.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Order()
+        {
+            return View();
+        }
+
+        public IActionResult Admin()
         {
             return View();
         }
