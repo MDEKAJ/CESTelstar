@@ -20,14 +20,15 @@
         <td>
             @using (Html.BeginForm("SetLanguage", "Home", new { culture = "en", returnUrl = returnUrl }, FormMethod.Post))
             {
-                <input id="btnSubmit_en" class="left_flag" type="image" src="~/images/uj.png" width="75" height="40" value="English" />
+                <button type='submit' name='en' value='en' class="en_flag"></button>
+                
             }
         </td>
         
         <td>
-            @using (Html.BeginForm("SetLanguage", "Home", new {culture = "fr-FR", returnUrl = returnUrl}, FormMethod.Post))
+            @using (Html.BeginForm("SetLanguage", "Home", new { culture = "fr-FR", returnUrl = returnUrl }, FormMethod.Post))
             {
-                <input id="btnSubmit_fr-FR" type="image" src="~/images/french.png" width="75" height="40" value="French"/>
+                <button type='submit' name='fr' value='fr' class="fr_flag"></button>
             }
         </td>
     </tr>
