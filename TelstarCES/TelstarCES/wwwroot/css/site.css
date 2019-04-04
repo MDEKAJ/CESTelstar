@@ -138,3 +138,7 @@ body {
     border-radius: 0.25rem;
     margin: 10px;
 }
+
+.left_flag {
+    margin-right: 10px;
+}

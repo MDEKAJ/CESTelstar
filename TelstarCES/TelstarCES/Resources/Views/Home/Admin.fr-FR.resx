@@ -117,7 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Order" xml:space="preserve">
-    <value>Ordre</value>
+  <data name="Add a city" xml:space="preserve">
+    <value>Ajouter une ville</value>
+  </data>
+  <data name="Add a connection" xml:space="preserve">
+    <value>Ajouter une connexion</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Cities" xml:space="preserve">
+    <value>Villes</value>
+  </data>
+  <data name="City name" xml:space="preserve">
+    <value>Nom de Ville</value>
+  </data>
+  <data name="Click a city to edit it" xml:space="preserve">
+    <value>Cliquez sur une ville pour la modifier</value>
+  </data>
+  <data name="Connected City" xml:space="preserve">
+    <value>Ville connectée</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Durée</value>
+  </data>
+  <data name="Edit a city below" xml:space="preserve">
+    <value>Modifier une ville ci-dessous</value>
+  </data>
+  <data name="Edit Cities" xml:space="preserve">
+    <value>Modifier les villes</value>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Exemple</value>
+  </data>
+  <data name="Larry" xml:space="preserve">
+    <value>Larry</value>
+  </data>
+  <data name="List of Cities in the system are presented below" xml:space="preserve">
+    <value>La liste des villes du système est présentée ci-dessous</value>
+  </data>
+  <data name="List of City connections in the system are presented below" xml:space="preserve">
+    <value>La liste des connexions de villes dans le système est présentée ci-dessous</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="Provider" xml:space="preserve">
+    <value>Fournisseur</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Use this page to Add, Edit and Remove Cities" xml:space="preserve">
+    <value>Utilisez cette page pour ajouter, modifier et supprimer des villes</value>
   </data>
 </root>
