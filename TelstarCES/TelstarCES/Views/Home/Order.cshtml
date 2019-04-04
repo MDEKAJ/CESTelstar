@@ -7,7 +7,6 @@
     <p>Use this page to find a route based on your starting location and ending location.</p>
 </div>
 
-<body>
     <!-- Initialise Tabs -->
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -20,7 +19,7 @@
     <!-- Display Tabs-->
     <div class="tab-content" id="nav-tabContent">
 
-        <!-- Display Order Tab-->
+        <!------------------------------------------------------------Order Tab ------------------------------------------------------------------>
         <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
 
             <!-- Order Card -->
@@ -200,8 +199,33 @@
 
         <!-- -------------------------------------------------------Receipt Tab ---------------------------------------------------------------------------------->
         <div class="tab-pane fade" id="nav-receipt" role="tabpanel" aria-labelledby="nav-contact-tab">
-            Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia. Fugiat velit proident aliquip nisi incididunt nostrud exercitation proident est nisi. Irure magna elit commodo anim ex veniam culpa eiusmod id nostrud sit cupidatat in veniam ad. Eiusmod consequat eu adipisicing minim anim aliquip cupidatat culpa excepteur quis. Occaecat sit eu exercitation irure Lorem incididunt nostrud.
+
+            <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+                <!-- Order Card -->
+                <div class="card text-left">
+                    <div class="card-header">
+                        The order has been completed successfully, the order ID is presented below.
+                    </div>
+
+                    <div class="card-body">
+
+                        <input class="form-control" type="text" placeholder="#123..." value="" readonly>
+
+
+
+                    </div>
+
+                    <!-- Tab Footer -->
+                    <div class="card-footer text-muted" style="position:relative;">
+                        <button type="button" class="btn btn-secondary" style="margin:15px" onclick="window.location.href = '/Home/Order'">New Order</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
         </div>
     </div>
-</body>
