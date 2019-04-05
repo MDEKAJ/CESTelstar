@@ -150,55 +150,55 @@
 
             <!-- Body -->
             <div class="card-body">
-                <form>
+                <form id="user-details-form" role="form">
 
                     <div class="form-row">
                         <div class="col-md-4 mb-3">
-                            <label for="validationDefault01">@Localizer﻿["First name"]</label>
-                            <input type="text" class="form-control" id="validationDefault01" placeholder="@Localizer["First name"]" value="" required>
+                            <label for="first-name">@Localizer﻿["First name"]</label>
+                            <input type="text" class="form-control" id="first-name" placeholder="@Localizer["First name"]">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="validationDefault02">@Localizer["Last name"]</label>
-                            <input type="text" class="form-control" id="validationDefault02" placeholder="@Localizer["Last name"]" value="" required>
+                            <label for="last-name">@Localizer["Last name"]</label>
+                            <input type="text" class="form-control" id="last-name" placeholder="@Localizer["Last name"]">
                         </div>
                     </div>
 
                     <div class="form-row" style="margin-top:25px;">
                         <div class="col-md-6 mb-3">
-                            <label for="validationDefault03">@Localizer["First Line of Address"]</label>
-                            <input type="text" class="form-control" id="validationDefault03" placeholder="@Localizer["First Line of Address"]" required>
+                            <label for="first-line-of-address">@Localizer["First Line of Address"]</label>
+                            <input type="text" class="form-control" id="first-line-of-address" placeholder="@Localizer["First Line of Address"]">
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="validationDefault03">@Localizer﻿["Second Line of Address"]</label>
-                            <input type="text" class="form-control" id="validationDefault03" placeholder="@Localizer﻿["Second Line of Address"]" required>
+                            <label for="second-line-of-address">@Localizer﻿["Second Line of Address"]</label>
+                            <input type="text" class="form-control" id="second-line-of-address" placeholder="@Localizer﻿["Second Line of Address"]">
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="validationDefault03">@Localizer["City"]</label>
-                            <input type="text" class="form-control" id="validationDefault03" placeholder="@Localizer["City"]" required>
+                            <label for="city">@Localizer["City"]</label>
+                            <input type="text" class="form-control" id="city" placeholder="@Localizer["City"]">
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="validationDefault04">@Localizer["Country"]</label>
-                            <input type="text" class="form-control" id="validationDefault04" placeholder="@Localizer["Country"]" required>
+                            <label for="country">@Localizer["Country"]</label>
+                            <input type="text" class="form-control" id="country" placeholder="@Localizer["Country"]">
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="validationDefault05">@Localizer["Zip"]</label>
-                            <input type="text" class="form-control" id="validationDefault05" placeholder="@Localizer["Zip"]" required>
+                            <label for="zip-code">@Localizer["Zip"]</label>
+                            <input type="text" class="form-control" id="zip-code" placeholder="@Localizer["Zip"]">
                         </div>
                     </div>
 
 
                     <div class="form-row" style="margin-top:25px">
                         <div class="col-md-6 mb-3">
-                            <label for="validationDefault03">@Localizer["Phone Number"]</label>
-                            <input type="text" class="form-control" id="validationDefault03" placeholder="" required>
+                            <label for="phone-number">@Localizer["Phone Number"]</label>
+                            <input type="text" class="form-control" id="phone-number" placeholder="">
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="validationDefault03">@Localizer["E-mail Address"]</label>
-                            <input type="text" class="form-control" id="validationDefault03" placeholder="example@gmail.com" required>
+                            <label for="email-address">@Localizer["E-mail Address"]</label>
+                            <input type="text" class="form-control" id="email-address" placeholder="example@gmail.com">
                         </div>
                     </div>
 
-                    <button class="btn btn-primary" type="submit">@Localizer["Submit form"]</button>
+                    <button class="btn btn-primary" type="submit">@Localizer["Submit User Details"]</button>
                 </form>
             </div>
         </div>
@@ -219,7 +219,7 @@
                 </div>
 
                 <div class="card-body">
-                    <input class="form-control" type="text" placeholder="#123..." value="" readonly>
+                    <input id="order-id" class="form-control" type="text" placeholder="#123..." readonly>
                 </div>
 
                 <!-- Tab Footer -->
@@ -239,9 +239,11 @@
 
 @section Scripts {
 
-    <script>
-        $(function () {
-            $("#get-route-btn").click(function () {
+<script>
+        var routeInfo = {}
+
+        $(function() {
+            $("#get-route-btn").click(function() {
                 if (!$("#origin-input").val() || !$("#destination-input").val()) {
                     alert("Invalid origin or destination") // TODO pretty error
                     return
@@ -254,6 +256,7 @@
                     return
                 }
 
+                userDetails = {}
                 var parcelType = $("#parcel-type-input").val()
                 var weight = $("#weight-input").val()
                 var filter = $("#filter-type-input").val()
@@ -267,12 +270,26 @@
                         weight: weight,
                         filter: filter,
                         recommended: recommended
-                    }, function (response) {
+                    },
+                    function(response) {
                         if (!response || !response.segments || !response.segments.length) {
                             hideThrobber()
                             alert("Failed to identify a valid route") // TODO pretty error
                             return
                         }
+
+                        routeInfo = {
+                            segments: response.segments,
+                            totalPrice: response.totalPrice,
+                            totalDuration: response.totalDuration,
+                            fromCity: fromCity,
+                            toCity: toCity,
+                            parcelTypeId: parcelType,
+                            weight: weight,
+                            filter: filter,
+                            recommended: recommended
+                        }
+
 
                         $("#total-price-display").text(response.totalPrice)
                         $("#total-duration-display").text(response.totalDuration)
@@ -293,6 +310,39 @@
                         $('#nav-tab a[href="#nav-confirmation"]').tab('show') // Select tab by name
                     })
             })
+
+            $("#user-details-form").submit(function (eventData) {
+                eventData.preventDefault()
+
+                if (!routeInfo) {
+                    alert("Cannot place order without route information") // TODO pretty error
+                    return
+                }
+
+                var firstName = $(eventData.currentTarget[0]).val()
+                var lastName = $(eventData.currentTarget[1]).val()
+                var firstLineOfAddress = $(eventData.currentTarget[2]).val()
+                var secondLineOfAddress = $(eventData.currentTarget[3]).val()
+                var city = $(eventData.currentTarget[4]).val()
+                var country = $(eventData.currentTarget[5]).val()
+                var zipCode = $(eventData.currentTarget[6]).val()
+                var phoneNumber = $(eventData.currentTarget[7]).val()
+                var emailAddress = $(eventData.currentTarget[8]).val()
+
+                showThrobber()
+                addOrder(routeInfo.segments, firstName + " " + lastName, emailAddress, phoneNumber, firstLineOfAddress, secondLineOfAddress, zipCode, city,
+                    country, routeInfo.recommended, routeInfo.totalPrice, routeInfo.totalDuration, routeInfo.fromCity, routeInfo.toCity,
+                    routeInfo.weight, routeInfo.parcelTypeId, function (response) {
+
+                    hideThrobber()
+                    if (!response) {
+                        alert("Failed to place order. Please try again") // TODO: pretty error
+                    }
+
+                    $("#order-id").val(response)
+                    $('#nav-tab a[href="#nav-receipt"]').tab('show') // Select tab by name
+                })
+            })
         })
-    </script>
+</script>
 }
