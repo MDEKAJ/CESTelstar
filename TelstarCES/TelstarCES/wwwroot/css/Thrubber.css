@@ -1,0 +1,14 @@
+﻿#throbber{
+    z-index:1000;
+    position:absolute;
+    height:1000px;
+    width:1000px;
+    color:gray;
+}
+
+#throbber-gif{
+    z-index:3000;
+    position:absolute;
+    left:50px;
+    top:50px;
+}
