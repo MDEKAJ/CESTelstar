@@ -69,6 +69,7 @@ namespace TelstarCES.Services
             _currentNode = new PathNode
             {
                 City = origin,
+                Connection = await FindCheapestConnection(origin)
             };
             
             // keep iterating until a path is found or we have surpassed the max iterations
@@ -113,7 +114,7 @@ namespace TelstarCES.Services
                 var cityId = _currentNode.City.CityId == connection.City1Id ? connection.City2Id : connection.City1Id; 
                 if (cityId == _destination.CityId)
                 {
-                    BuildPath();
+                    await BuildPath();
                     return true;
                 }
 
@@ -125,6 +126,11 @@ namespace TelstarCES.Services
 
                 // Calculate the cost for this connection and add it as a path node to the open collection
                 var city = await _dataService.GetCity(cityId);
+                if (city == null)
+                {
+                    continue;
+                }
+
                 var cost = await GetCost(connection);
                 var node = new PathNode
                 {
@@ -159,7 +165,26 @@ namespace TelstarCES.Services
             return false;
         }
 
-        private void BuildPath()
+        private async Task<Connection> FindCheapestConnection(City city)
+        {
+            var connections = await _dataService.GetConnections(_destination.CityId);
+            var lowestCost = float.MaxValue;
+            Connection cheapestConnection = null;
+            for (var i = 0; i < connections.Length; i++)
+            {
+                var connection = connections[i];
+                var cost = await GetCost(connection);
+                if (cheapestConnection == null || cost < lowestCost)
+                {
+                    cheapestConnection = connection;
+                    lowestCost = cost;
+                }
+            }
+
+            return cheapestConnection;
+        }
+
+        private async Task BuildPath()
         {
             if (_recommended && !string.Equals(_currentNode.Connection.Provider, ProviderNames.Telstar,
                     StringComparison.InvariantCultureIgnoreCase))
@@ -170,8 +195,15 @@ namespace TelstarCES.Services
             }
 
             // Build the path by going backwards from the destination city - each path node knows about its 'parent' so use this for iterating
+            var cheapestConnection = await FindCheapestConnection(_destination);
+            var current = new PathNode
+            {
+                City = _destination,
+                Parent = _currentNode,
+                Connection = cheapestConnection
+            };
+
             var path = new List<Segment>(_visited.Count);
-            var current = _currentNode;
             while (current != null)
             {
                 if (current.Parent == null)

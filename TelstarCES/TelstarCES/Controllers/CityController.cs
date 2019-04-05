@@ -66,6 +66,11 @@ namespace TelstarCES.Controllers
                 return false;
             }
 
+            if (_dataService.GetCity(city.CityName) == null)
+            {
+                return false;
+            }
+
             return await _dataService.AddCity(city);
         }
 
