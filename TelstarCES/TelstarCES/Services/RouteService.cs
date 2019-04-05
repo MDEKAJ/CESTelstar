@@ -125,6 +125,11 @@ namespace TelstarCES.Services
 
                 // Calculate the cost for this connection and add it as a path node to the open collection
                 var city = await _dataService.GetCity(cityId);
+                if (city == null)
+                {
+                    continue;
+                }
+
                 var cost = await GetCost(connection);
                 var node = new PathNode
                 {
