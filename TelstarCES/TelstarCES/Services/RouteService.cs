@@ -194,7 +194,8 @@ namespace TelstarCES.Services
             {
                 City = _destination,
                 Parent = _currentNode,
-                Connection = cheapestConnection
+                Connection = cheapestConnection,
+                Cost = lowestCost
             };
 
             var path = new List<Segment>(_visited.Count);
