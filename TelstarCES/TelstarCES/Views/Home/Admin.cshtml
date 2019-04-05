@@ -227,15 +227,24 @@
                 } else {
                     // we have an existing ID, so we are updating the city
                     console.log("Update city by name: " + cityName + ", selectedCity: " + selectedCity.CityId + ", connections: " + selectedCity.Connections)
+
+                    if ($("#connection-provider") && $("#connection-price") && $("#connection-duration")) {
+                        selectedCity.Connections.push({
+                            "City1Id": selectedCity.CityId,
+                            "City2Id": $("#connection-city-name").val(),
+                            "Provider": $("#connection-provider").val(),
+                            "Price": $("#connection-price").val(),
+                            "Duration": $("#connection-duration").val()
+                        })
+                    }
+
                     updateCity({
                         "CityId": selectedCity.CityId,
                             "CityName": cityName,
                             "Connections": selectedCity.Connections
                         },
                         function () {
-                        if (!updateConnections()) {
                             location.reload(true)
-                            }
                     })
                 }
             })
