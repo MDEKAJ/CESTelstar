@@ -108,7 +108,8 @@ namespace TelstarCES.Services
                     return false;
                 }
 
-                _db.Entry(updateCity).CurrentValues.SetValues(city);
+                updateCity.CityName = city.CityName;
+                updateCity.Connections = city.Connections;
                 return await _db.SaveChangesAsync() > 0;
             }
             catch (Exception e)
