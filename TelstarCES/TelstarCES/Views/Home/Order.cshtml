@@ -64,7 +64,7 @@
                         }
                     </select>
 
-                    <input class="btn btn-secondary dropdown-toggle" type="number" id="weight-input" min="0.1" max="@Html.Raw(RouteMetrics.MaxWeight)" required />
+                    <input class="btn btn-secondary dropdown-toggle" type="number" id="weight-input" min="0.1" placeholder="@Localizer["Weight"]" max="@Html.Raw(RouteMetrics.MaxWeight)" required />
 
                     <select class="btn btn-secondary dropdown-toggle" id="filter-type-input">
                         @{
