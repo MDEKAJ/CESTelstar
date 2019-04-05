@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TelstarCES.Data;
 using TelstarCES.Data.Models;
+using TelstarCES.Enums;
 using TelstarCES.Models;
 using TelstarCES.Services;
 
@@ -15,6 +16,7 @@ namespace TelstarCES.Controllers
     public class RouteController : ControllerBase
     {
         private readonly IDataService _dataService;
+        private readonly IRouteService _routeService;
         private readonly HttpClient client = new HttpClient();
         private const string OceanicAirlinesDomain = "http://wa-oadk.azurewebsites.net";
         private const string TradingCompanyDomain = "http://wa-eitdk.azurewebsites.net";
@@ -22,6 +24,7 @@ namespace TelstarCES.Controllers
         public RouteController(ApplicationDbContext db)
         {
             _dataService = new DataService(db);
+            _routeService = new RouteService(_dataService, this);
         }
 
         [HttpGet]
@@ -73,9 +76,11 @@ namespace TelstarCES.Controllers
             }
         }
 
-        public string Calculate()
+        [HttpGet]
+        [Route("Calculate")]
+        public async Task<RouteViewModel> Calculate(string fromName, string toName, string parcelType, float weight, bool recommended, FilterType filterType)
         {
-            throw new NotImplementedException();
+            return await _routeService.CalculateRoute(fromName, toName, parcelType, weight, recommended, filterType);
         }
     }
 }

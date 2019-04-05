@@ -76,8 +76,15 @@ namespace TelstarCES.Services
 
         public async Task<bool> AddConnection(Connection connection)
         {
-            await _db.Connections.AddAsync(connection);
-            return await _db.SaveChangesAsync() > 0;
+            try
+            {
+                await _db.Connections.AddAsync(connection);
+                return await _db.SaveChangesAsync() > 0;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> UpdateConnection(Connection connection)

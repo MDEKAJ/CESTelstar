@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TelstarCES.Constants;
+using TelstarCES.Controllers;
 using TelstarCES.Data.Models;
 using TelstarCES.Enums;
+using TelstarCES.Models;
 
 namespace TelstarCES.Services
 {
@@ -16,20 +18,23 @@ namespace TelstarCES.Services
         private readonly List<PathNode> _openNodes = new List<PathNode>(40);
 
         private readonly IDataService _dataService;
+        private readonly RouteController _routeController;
 
         private City _destination;
         private PathNode _currentNode;
         private Segment[] _lastPath;
 
         private FilterType _filterType;
+        private float _weight;
+        private string _parcelType;
 
-
-        public RouteService(IDataService dataService)
+        public RouteService(IDataService dataService, RouteController routeController)
         {
             _dataService = dataService;
+            _routeController = routeController;
         }
 
-        public async Task<Segment[]> CalculateRoute(string fromName, string toName, string parcelType, bool recommended, FilterType filterType)
+        public async Task<RouteViewModel> CalculateRoute(string fromName, string toName, string parcelType, float weight, bool recommended, FilterType filterType)
         {
             var fromCity = await _dataService.GetCity(fromName);
             if (fromCity == null)
@@ -43,10 +48,17 @@ namespace TelstarCES.Services
                 throw new ArgumentException("toName");
             }
 
+            _weight = weight;
+            _parcelType = parcelType;
             _filterType = filterType;
-            return await FindPath(fromCity, toCity);
+            var path = await FindPath(fromCity, toCity);
+            return new RouteViewModel
+            {
+                Segments = path,
+                TotalDuration = path.Sum(p => p.Duration),
+                TotalPrice = path.Sum(p => p.Price) + (recommended ? 10f : 0f)
+            };
         }
-
 
         public async Task<Segment[]> FindPath(City origin, City destination)
         {
@@ -56,9 +68,7 @@ namespace TelstarCES.Services
             {
                 City = origin,
             };
-
-            //_visited.Add(_currentNode.city);
-
+            
             // keep iterating until a path is found or we have surpassed the max iterations
             var counter = 0;
             while (true)
@@ -113,7 +123,7 @@ namespace TelstarCES.Services
 
                 // Calculate the cost for this connection and add it as a path node to the open collection
                 var city = await _dataService.GetCity(cityId);
-                var cost = GetCost(connection);
+                var cost = await GetCost(connection);
                 var node = new PathNode
                 {
                      Parent = _currentNode,
@@ -186,17 +196,35 @@ namespace TelstarCES.Services
             _openNodes.Clear();
         }
 
-        private float GetCost(Connection connection)
+        private async Task<float> GetCost(Connection connection)
         {
+            var baseCost = 0f;
+            if (string.Equals(connection.Provider, ProviderNames.EastIndia, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var fromCity = await _dataService.GetCity(connection.City1Id);
+                var toCity = await _dataService.GetCity(connection.City2Id);
+                var data = await _routeController.GetExternalEITC(fromCity.CityName, toCity.CityName, (int)_filterType,
+                    _weight, _parcelType);
+
+                baseCost = (float) (_filterType == FilterType.Cheapest ? data.Price : data.Duration);
+                return baseCost * RouteMetrics.CompetitorBiasFactor;
+            }
+            else if (string.Equals(connection.Provider, ProviderNames.Oceanic, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var fromCity = await _dataService.GetCity(connection.City1Id);
+                var toCity = await _dataService.GetCity(connection.City2Id);
+                var data = await _routeController.GetExternalIOA(fromCity.CityName, toCity.CityName, (int) _filterType,
+                    _weight, _parcelType);
+
+                baseCost = (float) (_filterType == FilterType.Cheapest ? data.Price : data.Duration);
+                return baseCost * RouteMetrics.CompetitorBiasFactor;
+            }
+
             // the base cost is either the price or the duration depending on the chosen filter type
-            var baseCost = _filterType == FilterType.Cheapest ? connection.Price : connection.Duration;
+            baseCost = _filterType == FilterType.Cheapest ? connection.Price : connection.Duration;
 
             // the heuristic factor biases towards Telstar routes
-            var heuristicFactor = connection.Provider == ProviderNames.Telstar
-                ? RouteMetrics.TelstarProviderBiasFactor
-                : RouteMetrics.CompetitorBiasFactor;
-
-            return baseCost * heuristicFactor;
+            return baseCost * RouteMetrics.TelstarProviderBiasFactor;
         }
 
         private class PathNode
