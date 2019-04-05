@@ -15,6 +15,12 @@ namespace TelstarCES.Data
 
         public DbSet<ParcelType> ParcelTypes { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Segment> Segments { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
