@@ -11,6 +11,6 @@ namespace TelstarCES.Services
 
         public const string Oceanic = "OA";
 
-        public const string EastIndia = "EATC";
+        public const string EastIndia = "EITC";
     }
 }

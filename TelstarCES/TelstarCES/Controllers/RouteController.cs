@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TelstarCES.Constants;
 using TelstarCES.Data;
 using TelstarCES.Data.Models;
 using TelstarCES.Enums;
@@ -30,6 +31,16 @@ namespace TelstarCES.Controllers
         [HttpGet]
         public async Task<ExternalRouteModel> Index(string fromName, string toName, int filter, float weight, string parcelType)
         {
+            if (weight >= RouteMetrics.MaxWeight)
+            {
+                return new ExternalRouteModel
+                {
+                    Duration = 0,
+                    Price = 0,
+                    Valid = false
+                };
+            }
+
             var path = await _routeService.CalculateRoute(fromName, toName, parcelType, weight, false, (FilterType) filter);
 
             return new ExternalRouteModel
@@ -80,9 +91,19 @@ namespace TelstarCES.Controllers
 
         [HttpGet]
         [Route("Calculate")]
-        public async Task<RouteViewModel> Calculate(string fromName, string toName, string parcelType, float weight, bool recommended, FilterType filterType)
+        public async Task<RouteViewModel> Calculate(string fromName, string toName, string parcelType, float weight, bool recommended, int filterType)
         {
-            return await _routeService.CalculateRoute(fromName, toName, parcelType, weight, recommended, filterType);
+            if (weight >= RouteMetrics.MaxWeight)
+            {
+                return new RouteViewModel
+                {
+                    TotalPrice = 0f,
+                    TotalDuration = 0,
+                    Segments = new Segment[0]
+                };
+            }
+
+            return await _routeService.CalculateRoute(fromName, toName, parcelType, weight, recommended, (FilterType)filterType);
         }
     }
 }

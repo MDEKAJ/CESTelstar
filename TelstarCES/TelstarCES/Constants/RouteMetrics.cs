@@ -10,5 +10,7 @@ namespace TelstarCES.Constants
         public const float TelstarProviderBiasFactor = 0.8f;
 
         public const float CompetitorBiasFactor = 1f;
+
+        public const float MaxWeight = 40f;
     }
 }

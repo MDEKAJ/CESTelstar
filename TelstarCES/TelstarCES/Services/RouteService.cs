@@ -160,31 +160,35 @@ namespace TelstarCES.Services
         private void BuildPath()
         {
             // Build the path by going backwards from the destination city - each path node knows about its 'parent' so use this for iterating
-            var path = new Segment[_visited.Count];
-            var current = new PathNode
-            {
-                City = _destination,
-                Parent = _currentNode,
-            };
-
-            int index = 0;
+            var path = new List<Segment>(_visited.Count);
+            //var current = new PathNode
+            //{
+            //    City = _destination,
+            //    Parent = _currentNode,
+            //};
+            var current = _currentNode;
             while (current != null)
             {
-                path[index++] = new Segment
+                if (current.Parent == null)
+                {
+                    break;
+                }
+
+                path.Add(new Segment
                 {
                     ToCity = current.City.CityName,
                     FromCity = current.Parent.City.CityName,
-                    Duration = current.Connection.Duration,
-                    Price = current.Connection.Price,
-                    Provider = current.Connection.Provider
-                };
+                    Duration = current.Connection?.Duration ?? 0,
+                    Price = current.Connection?.Price ?? 0f,
+                    Provider = current.Connection != null ? current.Connection.Provider : ProviderNames.Telstar
+                });
 
                 current = current.Parent;
             }
 
             // Reverse the order of the path to make it start from the intended origin
-            Array.Reverse(path);
-            _lastPath = path;
+            path.Reverse();
+            _lastPath = path.ToArray();
         }
 
         private void Reset()
@@ -199,25 +203,44 @@ namespace TelstarCES.Services
         private async Task<float> GetCost(Connection connection)
         {
             var baseCost = 0f;
-            if (string.Equals(connection.Provider, ProviderNames.EastIndia, StringComparison.InvariantCultureIgnoreCase))
+            try
             {
-                var fromCity = await _dataService.GetCity(connection.City1Id);
-                var toCity = await _dataService.GetCity(connection.City2Id);
-                var data = await _routeController.GetExternalEITC(fromCity.CityName, toCity.CityName, (int)_filterType,
-                    _weight, _parcelType);
+                if (string.Equals(connection.Provider, ProviderNames.EastIndia, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var fromCity = await _dataService.GetCity(connection.City1Id);
+                    var toCity = await _dataService.GetCity(connection.City2Id);
+                    var data = await _routeController.GetExternalEITC(fromCity.CityName, toCity.CityName, (int)_filterType,
+                        _weight, _parcelType);
 
-                baseCost = (float) (_filterType == FilterType.Cheapest ? data.Price : data.Duration);
-                return baseCost * RouteMetrics.CompetitorBiasFactor;
+                    if (!data.Valid)
+                    {
+                        return float.MaxValue;
+                    }
+
+                    baseCost = (float)(_filterType == FilterType.Cheapest ? data.Price : data.Duration);
+                    return baseCost * RouteMetrics.CompetitorBiasFactor;
+                }
+                else if (string.Equals(connection.Provider, ProviderNames.Oceanic, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var fromCity = await _dataService.GetCity(connection.City1Id);
+                    var toCity = await _dataService.GetCity(connection.City2Id);
+                    var data = await _routeController.GetExternalIOA(fromCity.CityName, toCity.CityName, (int)_filterType,
+                        _weight, _parcelType);
+                    if (!data.Valid)
+                    {
+                        return float.MaxValue;
+                    }
+
+                    baseCost = (float)(_filterType == FilterType.Cheapest ? data.Price : data.Duration);
+                    return baseCost * RouteMetrics.CompetitorBiasFactor;
+                }
+
             }
-            else if (string.Equals(connection.Provider, ProviderNames.Oceanic, StringComparison.InvariantCultureIgnoreCase))
+            catch (Exception e)
             {
-                var fromCity = await _dataService.GetCity(connection.City1Id);
-                var toCity = await _dataService.GetCity(connection.City2Id);
-                var data = await _routeController.GetExternalIOA(fromCity.CityName, toCity.CityName, (int) _filterType,
-                    _weight, _parcelType);
-
-                baseCost = (float) (_filterType == FilterType.Cheapest ? data.Price : data.Duration);
-                return baseCost * RouteMetrics.CompetitorBiasFactor;
+                // in case the external integration calls fail for any reason, we just assign maximum cost to avoid taking that route
+                Console.WriteLine(e.Message);
+                return float.MaxValue;
             }
 
             // the base cost is either the price or the duration depending on the chosen filter type
