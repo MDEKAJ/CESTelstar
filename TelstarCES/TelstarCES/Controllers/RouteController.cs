@@ -30,11 +30,13 @@ namespace TelstarCES.Controllers
         [HttpGet]
         public async Task<ExternalRouteModel> Index(string fromName, string toName, int filter, float weight, string parcelType)
         {
+            var path = await _routeService.CalculateRoute(fromName, toName, parcelType, weight, false, (FilterType) filter);
+
             return new ExternalRouteModel
             {
-                Price = 10,
-                Duration = 20,
-                Valid = true
+                Price = (decimal)path.TotalPrice,
+                Duration = path.TotalDuration,
+                Valid = path.Segments?.Length > 0
             };
         }
 
