@@ -23,7 +23,11 @@ namespace TelstarCES.Services
         public async Task<City> GetCity(int cityId)
         {
             return await _db.Cities.FirstOrDefaultAsync(c => c.CityId == cityId);
-          
+        }
+
+        public async Task<City> GetCity(string name)
+        {
+            return await _db.Cities.FirstOrDefaultAsync(c => string.Equals(c.CityName, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public async Task<City[]> GetCities()
@@ -72,8 +76,15 @@ namespace TelstarCES.Services
 
         public async Task<bool> AddConnection(Connection connection)
         {
-            await _db.Connections.AddAsync(connection);
-            return await _db.SaveChangesAsync() > 0;
+            try
+            {
+                await _db.Connections.AddAsync(connection);
+                return await _db.SaveChangesAsync() > 0;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> UpdateConnection(Connection connection)

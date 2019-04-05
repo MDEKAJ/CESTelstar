@@ -30,11 +30,15 @@ namespace TelstarCES.Controllers
             return View();
         }
 
-        public IActionResult Order()
+        public async Task<IActionResult> Order()
         {
             ViewData["Message"] = _localizer["Your application description page."];
 
-            return View();
+            return View(new OrderViewModal
+            {
+                Cities = await _dataService.GetCities(),
+                Parcels = await _dataService.GetParcelTypes()
+            });
         }
 
         public async Task<IActionResult> Admin()

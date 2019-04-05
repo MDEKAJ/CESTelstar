@@ -7,14 +7,12 @@ namespace TelstarCES.Services
 {
     public static class ParcelTypeBlackList
     {
-        private static string[] array =
+        private static readonly string[] _array =
         {
             "Animals",
-            "animals",
             "Weapons",
-            "weapons"
         };
 
-        public static HashSet<string> BlackList = new HashSet<string>(array);
+        public static HashSet<string> BlackList = new HashSet<string>(_array, StringComparer.InvariantCultureIgnoreCase);
     }
 }

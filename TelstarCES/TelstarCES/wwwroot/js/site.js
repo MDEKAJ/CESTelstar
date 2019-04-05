@@ -131,20 +131,19 @@ function addSegments(segments, orderId, callback)
 }
 
 function addOrder(segments,
-    customerName, customerEmail, customerPhoneNumber, customerAdress1, customerAdress2, customerZipCode, customerPOBox, customerCity, customerCountry,
+    customerName, customerEmail, customerPhoneNumber, customerAdress1, customerAdress2, customerZipCode, customerCity, customerCountry,
     orderRecommended, orderTotalPrice, orderTotalDuration, orderFromCity, orderToCity, orderWeight, parcelTypeId, callback) {
-    let customer = {
+    var customer = {
         "CustomerName": customerName,
         "Email": customerEmail,
         "Number": customerPhoneNumber,
         "Address1": customerAdress1,
         "Address2": customerAdress2,
         "ZipCode": customerZipCode,
-        "POBox": customerPOBox,
         "City": customerCity,
         "Country": customerCountry
     };
-    let order = {
+    var order = {
         "Recommended": orderRecommended,
         "TotalPrice": orderTotalPrice,
         "TotalDuration": orderTotalDuration,

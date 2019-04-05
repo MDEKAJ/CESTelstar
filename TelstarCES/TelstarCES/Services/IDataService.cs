@@ -13,6 +13,8 @@ namespace TelstarCES.Services
 
         Task<City> GetCity(int cityId);
 
+        Task<City> GetCity(string cityName);
+
         Task<City[]> GetCities();
 
         Task<bool> AddCity(City city);
