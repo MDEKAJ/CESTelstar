@@ -305,6 +305,7 @@
                         $("#total-price-display").text(response.totalPrice)
                         $("#total-duration-display").text(response.totalDuration)
 
+                        $("#route-info-table tbody tr").remove()
                         for (var idx in response.segments) {
                             var segment = response.segments[idx]
                             var row = "<tr>"
@@ -314,7 +315,7 @@
                             row += "<td>" + segment.price + "</td>"
                             row += "<td>" + segment.provider + "<td>"
                             row += "</tr>"
-                            $("#route-info-table tr:last").after(row)
+                            $("#route-info-table tbody").append(row)
                         }
 
                         $('#nav-tab a[href="#nav-confirmation"]').tab('show') // Select tab by name
