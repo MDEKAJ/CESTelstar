@@ -45,8 +45,22 @@ namespace TelstarCES.Services
 
         public async Task<bool> UpdateCity(City city)
         {
-            _db.Cities.Update(city);
-            return await _db.SaveChangesAsync() > 0;            
+            try
+            {
+                var updateCity = await _db.Cities.FirstOrDefaultAsync(c => c.CityId == city.CityId);
+                if (updateCity == null)
+                {
+                    return false;
+                }
+
+                _db.Entry(updateCity).CurrentValues.SetValues(city);
+                return await _db.SaveChangesAsync() > 0;            
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
 
         public async Task<bool> DeleteCity(City city)

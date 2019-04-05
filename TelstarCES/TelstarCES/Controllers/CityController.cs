@@ -45,7 +45,7 @@ namespace TelstarCES.Controllers
                 return false;
             }
 
-            if (_dataService.GetCity(city.CityId) != null)
+            if (_dataService.GetCity(city.CityId) == null)
             {
                 return false;
             }
@@ -61,7 +61,7 @@ namespace TelstarCES.Controllers
                 return false;
             }
 
-            if (_dataService.GetCity(city.CityId) != null)
+            if (_dataService.GetCity(city.CityId) == null)
             {
                 return false;
             }

@@ -57,7 +57,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var city in Model.Cities)
+                            @foreach (var city in Model.Cities.OrderBy(c => c.CityName))
                             {
                                 <tr>
                                     <td><a class="text-primary" onclick="onClickedCity(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')">@Localizer[city.CityName]</a></td>
@@ -68,15 +68,12 @@
                     </table>
                 </div>
 
-
-
-
             </div>
 
             <!-- Tab Footer -->
             <div class="card-footer text-muted" style="position:relative;">
                 <button id="add-city-btn" type="button" class="btn btn-primary" style="margin-bottom:10px">@Localizer["Add a city"]</button>
-                <button id="save-cities-btn" type="button" class="btn btn-primary btn-lg btn-block">@Localizer["Save"]</button>
+                @*<button id="save-cities-btn" type="button" class="btn btn-primary btn-lg btn-block">@Localizer["Save"]</button>*@
 
             </div>
         </div>
@@ -85,7 +82,6 @@
 
     <!-- Admin City Tab -->
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
 
         <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
 
@@ -125,7 +121,7 @@
                 <!-- Tab Footer -->
                 <div class="card-footer text-muted" style="position:relative;">
                     <button id="add-connection-btn" type="button" class="btn btn-primary" style="margin-bottom: 10px">@Localizer["Add a connection"]</button>
-                    <button id="save-city-btn" type="submit" class="btn btn-primary btn-lg btn-block">@Localizer["Save"]</button>
+                    <button id="save-city-btn" class="btn btn-primary btn-lg btn-block">@Localizer["Save"]</button>
                 </div>
             </div>
         </div>
@@ -204,7 +200,7 @@
                 "CityId": cityId,
                 "CityName": cityName
             }, function (response) {
-                    hideThrobber()
+                hideThrobber()
                 if (response) {
                     location.reload(true)
                 } else {
@@ -242,28 +238,29 @@
                 $('#nav-tab a[href="#nav-profile"]').tab('show') // Select tab by name
             })
 
-            $("#city-form").submit(function(e) {
-                e.preventDefault()
+            //$("#city-form").submit(function(e) {
+            //    e.preventDefault()
+            $("#save-city-btn").click(function () {
                 var cityName = $("#city-name-input").val()
                 if (!cityName) {
                     alert("You must input a city name!") // TODO do proper input validation
                     return
                 }
 
-                // TODO showThrobber()
+                showThrobber()
                 if (!selectedCity || !selectedCity.CityId) {
                     // we must be creating a new city, since we don't have a registered City ID
                     console.log("Create new city by name: " + cityName)
                     addCity(cityName,
                         function() {
-                        location.reload(true)
+                            location.reload(true)
                         })
 
                 } else {
                     // we have an existing ID, so we are updating the city
                     console.log("Update city by name: " + cityName + ", selectedCity: " + selectedCity.CityId + ", connections: " + selectedCity.Connections)
 
-                    if ($("#connection-provider") && $("#connection-price") && $("#connection-duration")) {
+                    if ($("#connection-provider").val() && $("#connection-price").val() && $("#connection-duration").val()) {
                         selectedCity.Connections.push({
                             "City1Id": selectedCity.CityId,
                             "City2Id": $("#connection-city-name").val(),
@@ -282,12 +279,6 @@
                             location.reload(true)
                     })
                 }
-            })
-
-
-            $("#save-cities-btn").click(function() {
-                // TODO ?
-                console.log("Save cities button clicked")
             })
 
             $("#add-connection-btn").click(function() {
