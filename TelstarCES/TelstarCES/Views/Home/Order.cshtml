@@ -7,60 +7,59 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Order</h1>
-    <p>Use this page to find a route based on your starting location and ending location.</p>
+    <h1 class="display-4">@Localizer﻿["Order"]</h1>
+    <p>@Localizer["Use this page to find a route based on your starting location and ending location."]</p>
 </div>
 
-<body>
     <!-- Initialise Tabs -->
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-home" aria-selected="true">Order</a>
-            <a class="nav-item nav-link" id="nav-confirmation-tab" data-toggle="tab" href="#nav-confirmation" role="tab" aria-controls="nav-profile" aria-selected="false">Confirmation</a>
-            <a class="nav-item nav-link" id="nav-receipt-tab" data-toggle="tab" href="#nav-receipt" role="tab" aria-controls="nav-contact" aria-selected="false">Receipt</a>
+            <a class="nav-item nav-link active" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-home" aria-selected="true">@Localizer["Order"]</a>
+            <a class="nav-item nav-link" id="nav-confirmation-tab" data-toggle="tab" href="#nav-confirmation" role="tab" aria-controls="nav-profile" aria-selected="false">@Localizer["Confirmation"]</a>
+            <a class="nav-item nav-link" id="nav-receipt-tab" data-toggle="tab" href="#nav-receipt" role="tab" aria-controls="nav-contact" aria-selected="false">@Localizer["Receipt"]</a>
         </div>
     </nav>
 
     <!-- Display Tabs-->
     <div class="tab-content" id="nav-tabContent">
 
-        <!-- Display Order Tab-->
+        <!------------------------------------------------------------Order Tab ------------------------------------------------------------------>
         <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
 
             <!-- Order Card -->
             <div class="card text-center">
                 <div class="card-header">
-                    Place your order here
+                    @Localizer["Place your order here"]
                 </div>
                 <div class="card-body">
 
                     <!-- Order Drop-Down -->
-                    <div class="dropdown" style="margin-bottom:15px;">
+                    <div class="dropdown" style="margin-bottom:100px;margin-right:10px; ">
 
                         <!-- Starting Location Dropdown  -->
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Starting Location
+                            @Localizer["Starting Location"]
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Example</a>
                         </div>
 
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ending Destination
+                            @Localizer﻿["Ending Destination"]
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Example</a>
                         </div>
 
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Parcel Type
+                            @Localizer["Parcel Type"]
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Example</a>
                         </div>
 
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Parcel Weight
+                            @Localizer["Parcel Weight"]
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Example</a>
@@ -74,69 +73,163 @@
                     <!-- Material unchecked -->
                     <div class="custom-control custom-checkbox" style="margin:10px">
                         <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                        <label class="custom-control-label" for="defaultUnchecked">Add recommended delivery (additional fee)</label>
+                        <label class="custom-control-label" for="defaultUnchecked">@Localizer["Add recommended delivery (additional fee)"]</label>
                     </div>
-                    <button type="button" class="btn btn-secondary" style="margin:15px">Search</button>
+                    <button type="button" class="btn btn-secondary" style="margin:15px">@Localizer["Search"]</button>
 
                 </div>
             </div>
         </div>
 
 
-        <!-- Confirmation Tab-->
-        <div class="tab-pane fade" id="nav-confirmation" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-            <div class="card">
+        <!-- ---------------------------------------------------- Confirmation Tab -------------------------------------------------------------------------------------------->
+        <div class="tab-pane fade" id="nav-confirmation" role="tabpanel" aria-labelledby="nav-profile-tab" style="margin-top:15px;">
+
+            <!-- Order Card -->
+            <div class="card text-left">
                 <div class="card-header">
-                    Featured
+                    @Localizer﻿["Route Information"]
                 </div>
+
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                    <!-- Routing Table-->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">@Localizer﻿["Origin"]</th>
+                                    <th scope="col">@Localizer["Destination"]</th>
+                                    <th scope="col">@Localizer["Duration"] (hrs)</th>
+                                    <th scope="col">@Localizer["Price"] ($)</th>
+                                    <th scope="col">@Localizer["Provider"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>d</td>
+                                    <td>d</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>d</td>
+                                    <td>d</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>d</td>
+                                    <td>d</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Routing Table-->
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"> Origin </th>
-                            <th scope="col">Duration (hrs)</th>
-                            <th scope="col">Price ($)</th>
-                            <th scope="col">Provider</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Example</td>
-                            <td>Example</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Thornton</td>
-                            <td>Example</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Example</td>
-                            <td>Example</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- Customer Information Card -->
+            <!--  Header-->
+            <div class="card text-left" style="margin-top:30px">
+                <div class="card-header">
+                    @Localizer["Customer information"]
+                </div>
 
+                <!-- Body -->
+                <div class="card-body">
+                    <form>
+
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationDefault01">@Localizer﻿["First name"]</label>
+                                <input type="text" class="form-control" id="validationDefault01" placeholder="@Localizer["First name"]" value="" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationDefault02">@Localizer["Last name"]</label>
+                                <input type="text" class="form-control" id="validationDefault02" placeholder="@Localizer["Last name"]" value="" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row" style="margin-top:25px;">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">@Localizer["First Line of Address"]</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="@Localizer["First Line of Address"]" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">@Localizer﻿["Second Line of Address"]</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="@Localizer﻿["Second Line of Address"]" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">@Localizer["City"]</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="@Localizer["City"]" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationDefault04">@Localizer["Country"]</label>
+                                <input type="text" class="form-control" id="validationDefault04" placeholder="@Localizer["Country"]" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationDefault05">@Localizer["Zip"]</label>
+                                <input type="text" class="form-control" id="validationDefault05" placeholder="@Localizer["Zip"]" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row" style="margin-top:25px">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">@Localizer["Phone Number"]</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationDefault03">@Localizer["E-mail Address"]</label>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="example@gmail.com" required>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">@Localizer["Submit form"]</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <!-- Receipt Tab -->
+
+
+
+        <!-- -------------------------------------------------------Receipt Tab ---------------------------------------------------------------------------------->
         <div class="tab-pane fade" id="nav-receipt" role="tabpanel" aria-labelledby="nav-contact-tab">
-            Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia. Fugiat velit proident aliquip nisi incididunt nostrud exercitation proident est nisi. Irure magna elit commodo anim ex veniam culpa eiusmod id nostrud sit cupidatat in veniam ad. Eiusmod consequat eu adipisicing minim anim aliquip cupidatat culpa excepteur quis. Occaecat sit eu exercitation irure Lorem incididunt nostrud.
+
+            <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+                <!-- Order Card -->
+                <div class="card text-left">
+                    <div class="card-header">
+                        @Localizer["The order has been completed successfully, the order ID is presented below."]
+                    </div>
+
+                    <div class="card-body">
+
+                        <input class="form-control" type="text" placeholder="#123..." value="" readonly>
+
+
+
+                    </div>
+
+                    <!-- Tab Footer -->
+                    <div class="card-footer text-muted" style="position:relative;">
+                        <button type="button" class="btn btn-secondary" style="margin:15px" onclick="window.location.href = '/Home/Order'">@Localizer["New Order"]</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
         </div>
     </div>
-</body>

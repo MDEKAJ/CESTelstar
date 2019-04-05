@@ -117,97 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add recommended delivery (additional fee)" xml:space="preserve">
-    <value>Ajouter la livraison recommandée (frais supplémentaires)</value>
+  <data name="Telstar Logistics" xml:space="preserve">
+    <value>Logistique Telstar</value>
   </data>
-  <data name="City" xml:space="preserve">
-    <value>Ville</value>
-  </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>Confirmation</value>
-  </data>
-  <data name="Country" xml:space="preserve">
-    <value>Pays</value>
-  </data>
-  <data name="Customer information" xml:space="preserve">
-    <value>Informations client</value>
-  </data>
-  <data name="Destination" xml:space="preserve">
-    <value>Destination</value>
-  </data>
-  <data name="Duration" xml:space="preserve">
-    <value>Durée</value>
-  </data>
-  <data name="E-mail Address" xml:space="preserve">
-    <value>Adresse email</value>
-  </data>
-  <data name="Ending Destination" xml:space="preserve">
-    <value>Destination finale</value>
-  </data>
-  <data name="First Line of Address" xml:space="preserve">
-    <value>Première ligne d'adresse</value>
-  </data>
-  <data name="First name" xml:space="preserve">
-    <value>Prénom</value>
-  </data>
-  <data name="Last name" xml:space="preserve">
-    <value>Nom de famille</value>
-  </data>
-  <data name="New Order" xml:space="preserve">
-    <value>Nouvelle commande</value>
-  </data>
-  <data name="Order" xml:space="preserve">
-    <value>Ordre</value>
-  </data>
-  <data name="Order Page" xml:space="preserve">
-    <value>Page de commande</value>
-  </data>
-  <data name="Origin" xml:space="preserve">
-    <value>Origine</value>
-  </data>
-  <data name="Parcel Type" xml:space="preserve">
-    <value>Type de colis</value>
-  </data>
-  <data name="Parcel Weight" xml:space="preserve">
-    <value>Poids du colis</value>
-  </data>
-  <data name="Phone Number" xml:space="preserve">
-    <value>Numéro de téléphone</value>
-  </data>
-  <data name="Place your order here" xml:space="preserve">
-    <value>Placez votre commande ici</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>Prix</value>
-  </data>
-  <data name="Provider" xml:space="preserve">
-    <value>Fournisseur</value>
-  </data>
-  <data name="Receipt" xml:space="preserve">
-    <value>Le reçu</value>
-  </data>
-  <data name="Route Information" xml:space="preserve">
-    <value>Informations sur la route</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Chercher</value>
-  </data>
-  <data name="Second Line of Address" xml:space="preserve">
-    <value>Deuxième ligne d'adresse</value>
-  </data>
-  <data name="Starting Location" xml:space="preserve">
-    <value>Lieu de départ</value>
-  </data>
-  <data name="Submit form" xml:space="preserve">
-    <value>Soumettre le formulaire</value>
-  </data>
-  <data name="The order has been completed successfully, the order ID is presented below." xml:space="preserve">
-    <value>La commande a été complétée avec succès, l'ID de commande est présenté ci-dessous.</value>
-  </data>
-  <data name="Use this page to find a route based on your starting location and ending location." xml:space="preserve">
-    <value>Utilisez cette page pour trouver un itinéraire basé sur votre position de départ et de destination.</value>
-  </data>
-  <data name="Zip" xml:space="preserve">
-    <value>Code postal</value>
+  <data name="Welcome to the Homepage of the Telstar Logicistics Application." xml:space="preserve">
+    <value>Bienvenue sur la page d'accueil de l'application logicielle Telstar.</value>
   </data>
 </root>

@@ -111,3 +111,57 @@ function deleteConnection(connectionId, callback) {
     })
 
 };
+
+function getParcelTypes(callback) {
+    $.getJSON("/api/ParcelType/ParcelTypes", null, function (response) {
+        callback(response);
+    });
+}
+
+function getParcelType(ParcelTypeId, callback) {
+    $.getJSON("/api/ParcelType",
+        { "ParcelTypeId": ParcelTypeId }, function (response) {
+            callback(response);
+        });
+}
+
+function addSegments(segments, orderId, callback)
+{
+
+}
+
+function addOrder(segments,
+    customerName, customerEmail, customerPhoneNumber, customerAdress1, customerAdress2, customerZipCode, customerPOBox, customerCity, customerCountry,
+    orderRecommended, orderTotalPrice, orderTotalDuration, orderFromCity, orderToCity, orderWeight, parcelTypeId, callback) {
+    let customer = {
+        "CustomerName": customerName,
+        "Email": customerEmail,
+        "Number": customerPhoneNumber,
+        "Address1": customerAdress1,
+        "Address2": customerAdress2,
+        "ZipCode": customerZipCode,
+        "POBox": customerPOBox,
+        "City": customerCity,
+        "Country": customerCountry
+    };
+    let order = {
+        "Recommended": orderRecommended,
+        "TotalPrice": orderTotalPrice,
+        "TotalDuration": orderTotalDuration,
+        "FromCity": orderFromCity,
+        "ToCity": orderToCity,
+        "Weight": orderWeight,
+        "Customer": customer,
+        "ParcelTypeId": parcelTypeId,
+        "Segments": segments
+    };
+    $.ajax({
+        url: '/api/Order',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(order),
+        dataType: 'json'
+    }).done(function (response) {
+        callback(response)
+    });
+}

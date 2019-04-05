@@ -138,7 +138,22 @@ body {
     border-radius: 0.25rem;
     margin: 10px;
 }
-
-.left_flag {
+.fr_flag {
     margin-right: 10px;
+    background: url(../images/fr.svg) no-repeat;
+    width: 50px;
+    height: 40px;
+    border: 0;
+}
+.en_flag {
+    margin-right: 10px;
+    background: url(../images/gb.svg) no-repeat;
+    width: 50px;
+    height: 40px;
+    border: 0;
+.card-bodys {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+    padding:10px
 }
