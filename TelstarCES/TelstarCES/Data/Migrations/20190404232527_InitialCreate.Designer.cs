@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TelstarCES.Data;
 
 namespace TelstarCES.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190404232527_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,6 +283,8 @@ namespace TelstarCES.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
+                    b.HasIndex("ParcelTypeId");
+
                     b.ToTable("Orders");
                 });
 
@@ -309,7 +313,7 @@ namespace TelstarCES.Data.Migrations
                     b.Property<string>("FromCity")
                         .IsRequired();
 
-                    b.Property<int?>("OrderId");
+                    b.Property<int>("OrderId");
 
                     b.Property<float>("Price");
 
@@ -320,8 +324,6 @@ namespace TelstarCES.Data.Migrations
                         .IsRequired();
 
                     b.HasKey("SegmentId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Segments");
                 });
@@ -384,13 +386,11 @@ namespace TelstarCES.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
 
-            modelBuilder.Entity("TelstarCES.Data.Models.Segment", b =>
-                {
-                    b.HasOne("TelstarCES.Data.Models.Order")
-                        .WithMany("Segments")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("TelstarCES.Data.Models.ParcelType", "ParcelType")
+                        .WithMany()
+                        .HasForeignKey("ParcelTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

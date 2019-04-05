@@ -36,7 +36,7 @@ namespace TelstarCES.Services
         {
             await _db.Cities.AddAsync(city);
             return await _db.SaveChangesAsync() > 0;
-            
+   
         }
 
         public async Task<bool> UpdateCity(City city)
@@ -100,6 +100,17 @@ namespace TelstarCES.Services
         public async Task<ParcelType[]> GetParcelTypes()
         {
             return await _db.ParcelTypes.ToArrayAsync();
+        }
+
+        #endregion
+
+        #region ORDER
+
+        public async Task<int> AddOrder(Order order)
+        {
+            await _db.Orders.AddAsync(order);
+            await _db.SaveChangesAsync();
+            return order.OrderId;
         }
 
         #endregion
