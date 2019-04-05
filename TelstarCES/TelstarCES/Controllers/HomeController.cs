@@ -7,17 +7,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using TelstarCES.Data;
+using TelstarCES.Data.Models;
 using TelstarCES.Models;
+using TelstarCES.Services;
 
 namespace TelstarCES.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IStringLocalizer<HomeController> _localizer;
+        private readonly IDataService _dataService;
 
-        public HomeController(IStringLocalizer<HomeController> localizer)
+        public HomeController(IStringLocalizer<HomeController> localizer, ApplicationDbContext db)
         {
             _localizer = localizer;
+            _dataService = new DataService(db);
         }
 
         public IActionResult Index()
@@ -32,9 +37,12 @@ namespace TelstarCES.Controllers
             return View();
         }
 
-        public IActionResult Admin()
+        public async Task<IActionResult> Admin()
         {
-            return View();
+            return View(new CityViewModal
+            {
+                Cities = await _dataService.GetCities()
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -8,7 +8,6 @@ namespace TelstarCES.Models
 {
     public class CityViewModal
     {
-        public Dictionary<City, Connection[]> Cities { get; set; }
-
+        public City[] Cities { get; set; }
     }
 }
