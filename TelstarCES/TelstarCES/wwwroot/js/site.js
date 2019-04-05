@@ -122,7 +122,8 @@ function addSegments(segments, orderId, callback)
 
 }
 
-function addOrder(customerName, customerEmail, customerPhoneNumber, customerAdress1, customerAdress2, customerZipCode, customerPOBox, customerCity, customerCountry,
+function addOrder(segments,
+    customerName, customerEmail, customerPhoneNumber, customerAdress1, customerAdress2, customerZipCode, customerPOBox, customerCity, customerCountry,
     orderRecommended, orderTotalPrice, orderTotalDuration, orderFromCity, orderToCity, orderWeight, parcelTypeId, callback) {
     let customer = {
         "CustomerName": customerName,
@@ -143,7 +144,8 @@ function addOrder(customerName, customerEmail, customerPhoneNumber, customerAdre
         "ToCity": orderToCity,
         "Weight": orderWeight,
         "Customer": customer,
-        "ParcelTypeId": parcelTypeId
+        "ParcelTypeId": parcelTypeId,
+        "Segments": segments
     };
     $.ajax({
         url: '/api/Order',

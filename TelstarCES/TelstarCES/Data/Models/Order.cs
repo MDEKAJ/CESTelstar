@@ -35,6 +35,9 @@ namespace TelstarCES.Data.Models
         public virtual Customer Customer { get; set; }
 
         [Required]
+        public virtual ICollection<Segment> Segments { get; set; }
+
+        [Required]
         public virtual int ParcelTypeId { get; set; }
     }
 }
