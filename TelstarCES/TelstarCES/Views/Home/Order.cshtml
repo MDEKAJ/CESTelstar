@@ -272,7 +272,7 @@
                     return
                 }
 
-                var recommended = $("#recommended-input").val() == true
+                var recommended = $("#recommended-input").is(":checked")
                 showThrobber()
                 $.get("/api/route/calculate",
                     {
