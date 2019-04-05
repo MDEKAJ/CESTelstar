@@ -69,6 +69,7 @@ namespace TelstarCES.Services
             _currentNode = new PathNode
             {
                 City = origin,
+                Connection = await FindCheapestConnection(origin)
             };
             
             // keep iterating until a path is found or we have surpassed the max iterations
@@ -164,6 +165,25 @@ namespace TelstarCES.Services
             return false;
         }
 
+        private async Task<Connection> FindCheapestConnection(City city)
+        {
+            var connections = await _dataService.GetConnections(_destination.CityId);
+            var lowestCost = float.MaxValue;
+            Connection cheapestConnection = null;
+            for (var i = 0; i < connections.Length; i++)
+            {
+                var connection = connections[i];
+                var cost = await GetCost(connection);
+                if (cheapestConnection == null || cost < lowestCost)
+                {
+                    cheapestConnection = connection;
+                    lowestCost = cost;
+                }
+            }
+
+            return cheapestConnection;
+        }
+
         private async Task BuildPath()
         {
             if (_recommended && !string.Equals(_currentNode.Connection.Provider, ProviderNames.Telstar,
@@ -175,27 +195,12 @@ namespace TelstarCES.Services
             }
 
             // Build the path by going backwards from the destination city - each path node knows about its 'parent' so use this for iterating
-
-            var connections = await _dataService.GetConnections(_destination.CityId);
-            var lowestCost = float.MaxValue;
-            var cheapestConnection = connections[0];
-            for (var i = 0; i < connections.Length; i++)
-            {
-                var connection = connections[i];
-                var cost = await GetCost(connection);
-                if (cost < lowestCost)
-                {
-                    cheapestConnection = connection;
-                    lowestCost = cost;
-                }
-            }
-
+            var cheapestConnection = await FindCheapestConnection(_destination);
             var current = new PathNode
             {
                 City = _destination,
                 Parent = _currentNode,
-                Connection = cheapestConnection,
-                Cost = lowestCost
+                Connection = cheapestConnection
             };
 
             var path = new List<Segment>(_visited.Count);
