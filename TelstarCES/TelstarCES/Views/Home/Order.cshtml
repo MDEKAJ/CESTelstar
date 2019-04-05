@@ -229,10 +229,6 @@
             </div>
         </div>
 
-
-
-
-
     </div>
 </div>
 
@@ -257,23 +253,39 @@
                 }
 
                 userDetails = {}
-                var parcelType = $("#parcel-type-input").val()
+                var parcelTypeId = $("#parcel-type-input").val()
+                var parcelTypeName = $("#parcel-type-input option:selected").text()
+                if (!parcelTypeId || !parcelTypeName) {
+                    alert("Parcel type is missing or invalid") // TODO pretty error
+                    return
+                }
+
                 var weight = $("#weight-input").val()
+                if (!weight || weight < 0) {
+                    alert("Weight input is missing or invalid") // TODO pretty error
+                    return
+                }
+
                 var filter = $("#filter-type-input").val()
+                if (!filter || filter < 0) {
+                    alert("Filter input is missing or invalid") // TODO pretty error
+                    return
+                }
+
                 var recommended = $("#recommended-input").val() == true
                 showThrobber()
                 $.get("/api/route/calculate",
                     {
                         fromName: fromCity,
                         toName: toCity,
-                        parcelType: parcelType,
+                        parcelType: parcelTypeName,
                         weight: weight,
                         filter: filter,
                         recommended: recommended
                     },
                     function(response) {
+                        hideThrobber()
                         if (!response || !response.segments || !response.segments.length) {
-                            hideThrobber()
                             alert("Failed to identify a valid route") // TODO pretty error
                             return
                         }
@@ -284,12 +296,11 @@
                             totalDuration: response.totalDuration,
                             fromCity: fromCity,
                             toCity: toCity,
-                            parcelTypeId: parcelType,
+                            parcelTypeId: parcelTypeId,
                             weight: weight,
                             filter: filter,
                             recommended: recommended
                         }
-
 
                         $("#total-price-display").text(response.totalPrice)
                         $("#total-duration-display").text(response.totalDuration)
@@ -306,7 +317,6 @@
                             $("#route-info-table tr:last").after(row)
                         }
 
-                        hideThrobber()
                         $('#nav-tab a[href="#nav-confirmation"]').tab('show') // Select tab by name
                     })
             })
@@ -337,6 +347,7 @@
                     hideThrobber()
                     if (!response) {
                         alert("Failed to place order. Please try again") // TODO: pretty error
+                        return
                     }
 
                     $("#order-id").val(response)
