@@ -27,6 +27,7 @@ namespace TelstarCES.Services
         private FilterType _filterType;
         private float _weight;
         private string _parcelType;
+        private bool _recommended;
 
         public RouteService(IDataService dataService, RouteController routeController)
         {
@@ -51,6 +52,7 @@ namespace TelstarCES.Services
             _weight = weight;
             _parcelType = parcelType;
             _filterType = filterType;
+            _recommended = recommended;
             var path = await FindPath(fromCity, toCity);
             return new RouteViewModel
             {
@@ -159,13 +161,16 @@ namespace TelstarCES.Services
 
         private void BuildPath()
         {
+            if (_recommended && !string.Equals(_currentNode.Connection.Provider, ProviderNames.Telstar,
+                    StringComparison.InvariantCultureIgnoreCase))
+            {
+                // if a recommended parcel is being delivered, and the destination connection provider is not Telstar, then the path is invalid
+                _lastPath = new Segment[0];
+                return;
+            }
+
             // Build the path by going backwards from the destination city - each path node knows about its 'parent' so use this for iterating
             var path = new List<Segment>(_visited.Count);
-            //var current = new PathNode
-            //{
-            //    City = _destination,
-            //    Parent = _currentNode,
-            //};
             var current = _currentNode;
             while (current != null)
             {
