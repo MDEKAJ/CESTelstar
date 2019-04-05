@@ -66,6 +66,11 @@ namespace TelstarCES.Controllers
                 return false;
             }
 
+            if (connection.City1Id == connection.City2Id)
+            {
+                return false;
+            }
+
             return await _dataService.UpdateConnection(connection);
         }
 
@@ -84,6 +89,11 @@ namespace TelstarCES.Controllers
 
             if (_dataService.GetCity(connection.City1Id) == null ||
                 _dataService.GetCity(connection.City2Id) == null)
+            {
+                return false;
+            }
+
+            if (connection.City1Id == connection.City2Id)
             {
                 return false;
             }
