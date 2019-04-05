@@ -125,11 +125,6 @@ function getParcelType(ParcelTypeId, callback) {
         });
 }
 
-function addSegments(segments, orderId, callback)
-{
-
-}
-
 function addOrder(segments,
     customerName, customerEmail, customerPhoneNumber, customerAdress1, customerAdress2, customerZipCode, customerCity, customerCountry,
     orderRecommended, orderTotalPrice, orderTotalDuration, orderFromCity, orderToCity, orderWeight, parcelTypeId, callback) {
