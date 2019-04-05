@@ -1,6 +1,6 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization;
-
-@inject IViewLocalizer Localizer﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model CityViewModal
 
 <!-- Initilisation of Navigation Bootstrap and Tabs-->
 @*
@@ -13,105 +13,286 @@
         <script src="~/wwwroot/css/Adminpage.css"></script>
     </head>
 *@
-<!-- Function to dynamically update table -->
-<script>
-    function myFunction() {
-        var table = document.getElementById("?");
-        var row = table.insertRow(0);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        cell1.innerHTML = "?";
-        cell2.innerHTML = "?";
-    }
-</script>
 
 <!-- Page Title and Description -->
 @{
     ViewData["Title"] = Localizer﻿["Admin"];
 }
+
 <div class="text-center">
     <h1 class="display-4">@Localizer﻿["Admin"]</h1>
     <p>@Localizer["Use this page to Add, Edit and Remove Cities"]</p>
 </div>
 
-<!-- PAGE VIEW -->
-<body>
-    <!-- Initialise Tabs -->
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">@Localizer﻿["Cities"]</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">@Localizer﻿["Edit Cities"]</a>
-        </div>
-    </nav>
-    <div class="tab-content" id="nav-tabContent">
-        <!-- Admin Cities Tab -->
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <h1 class="display-4">@Localizer﻿["List of Cities in the system are presented below"]</h1>
-            <h4>@Localizer["Click a city to edit it"]</h4>
-            <!-- Init Cities Table-->
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">@Localizer["City Name"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Localizer["Example"]</td>
-                        </tr>
-                        <tr>
-                            <td>@Localizer["Example"]</td>
-                        </tr>
-                        <tr>
-                            <td>@Localizer﻿["Larry"]</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <button type="button" class="btn btn-light" style="margin-bottom:10px">@Localizer["Add a city"]</button>
-            <button type="button" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
 
+<!-- Initialise Tabs -->
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Cities</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Edit Cities</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+
+    <!-- Admin Cities Tab -->
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <h1 class="display-4">@Localizer["List of Cities in the system are presented below"]</h1>
+        <h4>@Localizer["Click a city to edit it"]</h4>
+
+        <!-- Init Cities Table-->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">@Localizer["City Name"]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var city in Model.Cities)
+                {
+                    <tr>
+                        <td><a onclick="onClickedCity(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')">@Localizer[city.CityName]</a></td>
+                        <td><a onclick="deleteCityClick(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')" class="button">X</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </div>
-        <!-- Admin City Tab -->
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <h1 class="display-4">@Localizer["List of City connections in the system are presented below"]</h1>
-            <h4>@Localizer﻿["Edit a city below"]</h4>
+
+        <button id="add-city-btn" type="button" class="btn btn-light" style="margin-bottom:10px">@Localizer["Add a city"]</button>
+        <button id="save-cities-btn" type="button" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
+
+    </div>
+
+    <!-- Admin City Tab -->
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <h1 class="display-4">@Localizer["List of City connections in the system are presented below"]</h1>
+        <h4>@Localizer["Edit a city below"]</h4>
+        
+        <form id="city-form" role="form">
+            <div class="form-group">
+                <input id="city-name-input" class="form-control" type="text" required/>
+            </div>
+
             <!-- Init Cities Table-->
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table id="connections-table" class="table table-striped">
                     <thead>
-                        <tr>
-                            <th scope="col">@Localizer﻿["Connected City"]</th>
-                            <th scope="col">@Localizer﻿["Duration"] (hrs)</th>
-                            <th scope="col">@Localizer["Price"] ($)</th>
-                            <th scope="col">@Localizer﻿["Provider"]</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">@Localizer["Connected City"]</th>
+                        <th scope="col">@Localizer["Duration (hrs)"]</th>
+                        <th scope="col">@Localizer["Price ($)"]</th>
+                        <th scope="col">@Localizer["Provider"]</th>
+                        <th></th>
+                    </tr>
                     </thead>
+
                     <tbody>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Example</td>
-                            <td>Example</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Thornton</td>
-                            <td>Example</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Example</th>
-                            <td>Example</td>
-                            <td>Example</td>
-                            <td>Example</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
-            <button type="button" class="btnz btnz-light" style="margin-bottom:10px">@Localizer["Add a connection"]</button>
-            <button type="button" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
-        </div>
+
+            <button id="add-connection-btn" type="button" class="btnz btnz-light" style="margin-bottom: 10px">@Localizer["Add a connection"]</button>
+            <button id="save-city-btn" type="submit" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
+        </form>
+
     </div>
-</body>
+
+</div>
+
+@section Scripts {
+
+    <!-- Function to dynamically update table -->
+    <script>
+        var selectedCity = {}
+
+        var cities = @Html.Raw(Json.Serialize(Model.Cities))
+
+                function getCachedCity(cityId) {
+                    for (var idx in cities) {
+                        if (cities[idx].cityId == cityId) {
+                            return cities[idx]
+                        }
+                    }
+
+                    return null
+                }
+
+                function onClickedCity(cityId, cityName) {
+                    console.log("Clicked city by id: " + cityId + ", name: " + cityName)
+                    // TODO showThrobber
+            selectedCity = { CityId: cityId, CityName: cityName }
+                    getCityConnections(cityId,
+                        function(response) {
+                        selectedCity.Connections = response || []
+                            $("#city-name-input").val(cityName)
+
+
+                            var table = document.getElementById('connections-table').getElementsByTagName('tbody')[0]
+                            $("#connections-table tbody tr").remove();
+                    for (var idx in selectedCity.Connections) {
+                        var connection = selectedCity.Connections[idx]
+                        var city = getCachedCity(connection.city1Id == cityId ? connection.city2Id : connection.city1Id)
+                        if (!city) {
+                            continue
+                        }
+
+                        var row = table.insertRow(0)
+
+                        var cell1 = row.insertCell(0)
+                        cell1.innerHTML = "<td>" + city.cityName + "</td>"
+
+                        var cell2 = row.insertCell(1)
+                        cell2.innerHTML = "<td>" + connection.duration + "</td>"
+
+                        var cell3 = row.insertCell(2)
+                        cell3.innerHTML = "<td>" + connection.price + "</td>"
+
+                        var cell4 = row.insertCell(3)
+                        cell4.innerHTML = "<td>" + connection.provider + "</td>"
+
+                        var cell5 = row.insertCell(4)
+                        cell5.innerHTML = "<td><a onclick='deleteConnectionClick(" + connection.connectionId + ")' class='button'>X</a></td>"
+
+                        console.log("show connection: " + connection)
+                    }
+
+                    // TODO hideThrobber
+                    $('#nav-tab a[href="#nav-profile"]').tab('show') // Select tab by name
+                })
+        }
+
+        function deleteCityClick(cityId, cityName) {
+            // TODO showThrobber
+            deleteCity({
+                "CityId": cityId,
+                "CityName": cityName
+            }, function (response) {
+                // TODO hideThrobber
+                if (response) {
+                    location.reload(true)
+                } else {
+                    alert("Failed to remove city. Please try again") // TODO pretty error
+                }
+            })
+        }
+
+        function deleteConnectionClick(connectionId) {
+            var cityId = selectedCity.CityId
+            var city = getCachedCity(cityId)
+            if (!city) {
+                alert("Could not delete connection, no city found") // TODO: prety error
+                return
+            }
+            
+            // TODO showThrobber
+            deleteConnection(connectionId, function(response) {
+                // TODO hideThrobber
+                if (response) {
+                    location.reload(true)
+                } else {
+                    alert("Failed to delete connection") // TODO pretty error
+                }
+            })
+        }
+
+        $(function() {
+            // When the document is loaded, bind click events ..
+
+            $("#add-city-btn").click(function() {
+                console.log("Add new city tab")
+                selectedCity = {}
+                $("#city-name-input").val("")
+                $('#nav-tab a[href="#nav-profile"]').tab('show') // Select tab by name
+            })
+
+            $("#city-form").submit(function(e) {
+                e.preventDefault()
+                var cityName = $("#city-name-input").val()
+                if (!cityName) {
+                    alert("You must input a city name!") // TODO do proper input validation
+                    return
+                }
+
+                // TODO showThrobber()
+                if (!selectedCity || !selectedCity.CityId) {
+                    // we must be creating a new city, since we don't have a registered City ID
+                    console.log("Create new city by name: " + cityName)
+                    addCity(cityName,
+                        function() {
+                        location.reload(true)
+                        })
+
+                } else {
+                    // we have an existing ID, so we are updating the city
+                    console.log("Update city by name: " + cityName + ", selectedCity: " + selectedCity.CityId + ", connections: " + selectedCity.Connections)
+                    updateCity({
+                        "CityId": selectedCity.CityId,
+                            "CityName": cityName,
+                            "Connections": selectedCity.Connections
+                        },
+                        function () {
+                        if (!updateConnections()) {
+                            location.reload(true)
+                            }
+                    })
+                }
+            })
+
+
+            $("#save-cities-btn").click(function() {
+                // TODO ?
+                console.log("Save cities button clicked")
+            })
+
+            $("#add-connection-btn").click(function() {
+
+                if ($("#connection-city-name").length > 0) {
+                    alert("You can only create one connection at a time!") // TODO pretty error 
+                    return
+                }
+
+                var table = document.getElementById('connections-table').getElementsByTagName('tbody')[0]
+                var row = table.insertRow(0)
+
+                var cell1 = row.insertCell(0)
+                cell1.innerHTML = "<td><select id='connection-city-name'>@foreach (var city in Model.Cities) { <option value='@city.CityId'>@Localizer[city.CityName]</option> } </select></td>"
+
+                var cell2 = row.insertCell(1)
+                cell2.innerHTML = "<td><input id='connection-duration' type='number' min='1' required/></td>"
+
+                var cell3 = row.insertCell(2)
+                cell3.innerHTML = "<td><input id='connection-price' type='number' min='1' required /></td>"
+
+                var cell4 = row.insertCell(3)
+                cell4.innerHTML = "<td><input id='connection-provider' type='text' required /></td>" // TODO should be dropdown from ProviderNames
+
+
+                console.log("Add new connection button")
+            })
+
+            function updateConnections() {
+                if (!$("#connection-city-name").val()) {
+                    return false
+                }
+
+                console.log("add new connection")
+                addConnection({
+                    "City1Id": selectedCity.CityId,
+                        "City2Id": $("#connection-city-name").val(),
+                        "Provider": $("#connection-provider").val(),
+                        "Price": $("#connection-price").val(),
+                        "Duration": $("#connection-duration").val()
+                    },
+                    function() {
+                    location.reload(true)
+                    })
+
+                return true
+            }
+        })
+    
+    </script>
+
+}

@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-
-// for details on configuring this project to bundle and minify static web assets.
-// Write your JavaScript code.
-
-
+﻿
 function getCities(callback) {
     $.getJSON("/api/City/Cities", null, function (response) {
         callback(response);
@@ -61,6 +56,12 @@ function getConnections(callback) {
         });
 }
 
+function getCityConnections(cityId, callback) {
+    $.getJSON("/api/Connection/GetForCity", { "CityId": cityId }, function(response) {
+        callback(response)
+    })
+}
+
 function getConnection(connectionId, callback) {
     $.getJSON("/api/connection",
         { "ConnectionId": connectionId }, function (response) {
@@ -92,14 +93,21 @@ function updateConnection(connection, callback) {
     });
 };
 
-function deleteConnection(connection, callback) {
-    $.ajax({
-        url: '/api/Connection',
-        type: 'DELETE',
-        contentType: 'application/json',
-        data: JSON.stringify(connection),
-        dataType: 'json'
-    }).done(function (response) {
-        callback(response)
-    });
+function deleteConnection(connectionId, callback) {
+    var connection = getConnection(connectionId, function(response) {
+        if (response) {
+            $.ajax({
+                url: '/api/Connection',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify(response),
+                dataType: 'json'
+            }).done(function(response) {
+                callback(response)
+            });
+        } else {
+            callback(null)
+        }
+    })
+
 };

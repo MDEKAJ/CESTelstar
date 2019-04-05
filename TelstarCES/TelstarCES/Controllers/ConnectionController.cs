@@ -35,6 +35,18 @@ namespace TelstarCES.Controllers
             return await _dataService.GetConnection(connectionId);
         }
 
+        [HttpGet]
+        [Route("GetForCity")]
+        public async Task<Connection[]> GetForCity(int cityId)
+        {
+            if (cityId < 0)
+            {
+                return null;
+            }
+
+            return await _dataService.GetConnections(cityId);
+        }
+
         [HttpPut]
         public async Task<bool> Put(Connection connection)
         {
