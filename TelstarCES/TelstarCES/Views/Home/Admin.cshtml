@@ -12,6 +12,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <script src="~/wwwroot/css/Adminpage.css"></script>
     </head>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 *@
 
 <!-- Page Title and Description -->
@@ -36,66 +39,97 @@
 
     <!-- Admin Cities Tab -->
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <h1 class="display-4">@Localizer["List of Cities in the system are presented below"]</h1>
-        <h4>@Localizer["Click a city to edit it"]</h4>
 
-        <!-- Init Cities Table-->
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">@Localizer["City Name"]</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (var city in Model.Cities)
-                {
-                    <tr>
-                        <td><a onclick="onClickedCity(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')">@Localizer[city.CityName]</a></td>
-                        <td><a onclick="deleteCityClick(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')" class="button">X</a></td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+        <div class="card text-left" style="margin-top:15px;">
+            <div class="card-header">
+                @Localizer["List of Cities in the system are presented below, click a city to edit it"]
+            </div>
+
+            <div class="card-body">
+
+                <!-- Init Cities Table-->
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">@Localizer["City Name"]</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var city in Model.Cities)
+                            {
+                                <tr>
+                                    <td><a class="text-primary" onclick="onClickedCity(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')">@Localizer[city.CityName]</a></td>
+                                    <td><a onclick="deleteCityClick(@Html.Raw(city.CityId), '@Html.Raw(city.CityName)')" class="glyphicon glyphicon-remove">X</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+            </div>
+
+            <!-- Tab Footer -->
+            <div class="card-footer text-muted" style="position:relative;">
+                <button id="add-city-btn" type="button" class="btn btn-primary" style="margin-bottom:10px">@Localizer["Add a city"]</button>
+                <button id="save-cities-btn" type="button" class="btn btn-primary btn-lg btn-block">@Localizer["Save"]</button>
+
+            </div>
         </div>
-
-        <button id="add-city-btn" type="button" class="btn btn-light" style="margin-bottom:10px">@Localizer["Add a city"]</button>
-        <button id="save-cities-btn" type="button" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
 
     </div>
 
     <!-- Admin City Tab -->
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <h1 class="display-4">@Localizer["List of City connections in the system are presented below"]</h1>
-        <h4>@Localizer["Edit a city below"]</h4>
-        
-        <form id="city-form" role="form">
-            <div class="form-group">
-                <input id="city-name-input" class="form-control" type="text" required/>
+
+
+        <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+            <!-- Order Card -->
+            <div class="card text-left">
+                <div class="card-header">
+                    @Localizer["List of city connections in the system are present below, Edit city connections below"]
+                </div>
+
+                <div class="card-body">
+                    <form id="city-form" role="form">
+                        <h5>City name</h5>
+                        <div class="form-group">
+                            <input id="city-name-input" class="form-control" type="text" required />
+                        </div>
+
+                        <!-- Init Cities Table-->
+                        <div class="table-responsive">
+                            <table id="connections-table" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">@Localizer["Connected City"]</th>
+                                        <th scope="col">@Localizer["Duration (hrs)"]</th>
+                                        <th scope="col">@Localizer["Price ($)"]</th>
+                                        <th scope="col">@Localizer["Provider"]</th>
+                                        <th scope="col">@Localizer["Action"]</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tab Footer -->
+                <div class="card-footer text-muted" style="position:relative;">
+                    <button id="add-connection-btn" type="button" class="btn btn-primary" style="margin-bottom: 10px">@Localizer["Add a connection"]</button>
+                    <button id="save-city-btn" type="submit" class="btn btn-primary btn-lg btn-block">@Localizer["Save"]</button>
+                </div>
             </div>
+        </div>
 
-            <!-- Init Cities Table-->
-            <div class="table-responsive">
-                <table id="connections-table" class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">@Localizer["Connected City"]</th>
-                        <th scope="col">@Localizer["Duration (hrs)"]</th>
-                        <th scope="col">@Localizer["Price ($)"]</th>
-                        <th scope="col">@Localizer["Provider"]</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-
-            <button id="add-connection-btn" type="button" class="btnz btnz-light" style="margin-bottom: 10px">@Localizer["Add a connection"]</button>
-            <button id="save-city-btn" type="submit" class="btn btn-Warning btn-lg btn-block">@Localizer["Save"]</button>
-        </form>
 
     </div>
 
@@ -121,7 +155,7 @@
 
                 function onClickedCity(cityId, cityName) {
                     console.log("Clicked city by id: " + cityId + ", name: " + cityName)
-                    // TODO showThrobber
+                    showThrobber()
             selectedCity = { CityId: cityId, CityName: cityName }
                     getCityConnections(cityId,
                         function(response) {
@@ -158,18 +192,19 @@
                         console.log("show connection: " + connection)
                     }
 
-                    // TODO hideThrobber
+                            hideThrobber()
+                         
                     $('#nav-tab a[href="#nav-profile"]').tab('show') // Select tab by name
                 })
         }
 
         function deleteCityClick(cityId, cityName) {
-            // TODO showThrobber
+            showThrobber()
             deleteCity({
                 "CityId": cityId,
                 "CityName": cityName
             }, function (response) {
-                // TODO hideThrobber
+                    hideThrobber()
                 if (response) {
                     location.reload(true)
                 } else {
@@ -186,9 +221,9 @@
                 return
             }
             
-            // TODO showThrobber
+            showThrobber()
             deleteConnection(connectionId, function(response) {
-                // TODO hideThrobber
+                hideThrobber()
                 if (response) {
                     location.reload(true)
                 } else {
