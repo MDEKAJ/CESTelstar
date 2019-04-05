@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -16,22 +17,24 @@ namespace TelstarCES.Controllers
     [ApiController]
     public class RouteController : ControllerBase
     {
-        private readonly IDataService _dataService;
-        private readonly IRouteService _routeService;
-        private readonly HttpClient client = new HttpClient();
         private const string OceanicAirlinesDomain = "http://wa-oadk.azurewebsites.net";
         private const string TradingCompanyDomain = "http://wa-eitdk.azurewebsites.net";
+        private readonly HttpClient client = new HttpClient();
+        private readonly IRouteService _routeService;
+        private readonly IDataService _dataService;
+        private readonly HashSet<string> _blackList;
 
         public RouteController(ApplicationDbContext db)
         {
             _dataService = new DataService(db);
             _routeService = new RouteService(_dataService, this);
+            _blackList = ParcelTypeBlackList.BlackList;
         }
 
         [HttpGet]
         public async Task<ExternalRouteModel> Index(string fromName, string toName, int filter, float weight, string parcelType)
         {
-            if (weight >= RouteMetrics.MaxWeight)
+            if (weight >= RouteMetrics.MaxWeight || _blackList.Contains(parcelType))
             {
                 return new ExternalRouteModel
                 {
@@ -41,13 +44,12 @@ namespace TelstarCES.Controllers
                 };
             }
 
-            var path = await _routeService.CalculateRoute(fromName, toName, parcelType, weight, false, (FilterType) filter);
-
+            var path = await _routeService.CalculateRoute(fromName, toName, parcelType, weight, false, (FilterType) filter);            
             return new ExternalRouteModel
             {
-                Price = (decimal)path.TotalPrice,
-                Duration = path.TotalDuration,
-                Valid = path.Segments?.Length > 0
+                Price = (decimal)(path?.TotalPrice ?? 0),
+                Duration = path?.TotalDuration ?? 0,
+                Valid = path?.Segments?.Length > 0
             };
         }
 
@@ -93,7 +95,7 @@ namespace TelstarCES.Controllers
         [Route("Calculate")]
         public async Task<RouteViewModel> Calculate(string fromName, string toName, string parcelType, float weight, bool recommended, int filterType)
         {
-            if (weight >= RouteMetrics.MaxWeight)
+            if (weight >= RouteMetrics.MaxWeight || _blackList.Contains(parcelType))
             {
                 return new RouteViewModel
                 {
