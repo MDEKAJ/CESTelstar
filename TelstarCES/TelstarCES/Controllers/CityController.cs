@@ -45,6 +45,11 @@ namespace TelstarCES.Controllers
                 return false;
             }
 
+            if (_dataService.GetCity(city.CityId) != null)
+            {
+                return false;
+            }
+
             return await _dataService.UpdateCity(city);
         }
 
@@ -52,6 +57,11 @@ namespace TelstarCES.Controllers
         public async Task<bool> Post(City city)
         {
             if (string.IsNullOrWhiteSpace(city?.CityName))
+            {
+                return false;
+            }
+
+            if (_dataService.GetCity(city.CityId) != null)
             {
                 return false;
             }
