@@ -1,0 +1,360 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using TelstarCES.Constants
+@using TelstarCES.Enums
+@model OrderViewModal
+@inject IViewLocalizer Localizer﻿
+
+@{
+    ViewData["Title"] = Localizer﻿["Order Page"];
+}
+
+<div class="text-center">
+    <h1 class="display-4">@Localizer﻿["Order"]</h1>
+    <p>@Localizer["Use this page to find a route based on your starting location and ending location."]</p>
+</div>
+
+<!-- Initialise Tabs -->
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-home" aria-selected="true">@Localizer["Order"]</a>
+        <a class="nav-item nav-link" id="nav-confirmation-tab" data-toggle="tab" href="#nav-confirmation" role="tab" aria-controls="nav-profile" aria-selected="false">@Localizer["Confirmation"]</a>
+        <a class="nav-item nav-link" id="nav-receipt-tab" data-toggle="tab" href="#nav-receipt" role="tab" aria-controls="nav-contact" aria-selected="false">@Localizer["Receipt"]</a>
+    </div>
+</nav>
+
+<!-- Display Tabs-->
+<div class="tab-content" id="nav-tabContent">
+
+
+
+    <!---------------------------------------------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------Order Tab ------------------------------------------------------------------>
+    <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+        <!-- Order Card -->
+        <div class="card text-center">
+            <div class="card-header">
+                @Localizer["Place your order here"]
+            </div>
+
+            <div class="card-body">
+                <!-- Order Drop-Down -->
+                <div class="dropdown" style="margin-bottom:100px;margin-right:10px; ">
+
+                    <select class="btn btn-secondary dropdown-toggle" id="origin-input">
+                        <option value="">@Localizer["Origin"]</option>
+                        @foreach (var city in Model.Cities.OrderBy(c => c.CityName))
+                        {
+                            <option value="@Html.Raw(city.CityId)">@Localizer[city.CityName]</option>
+                        }
+                    </select>
+
+                    <select class="btn btn-secondary dropdown-toggle" id="destination-input">
+                        <option value="">@Localizer["Destination"]</option>
+                        @foreach (var city in Model.Cities.OrderBy(c => c.CityName))
+                        {
+                            <option value="@Html.Raw(city.CityId)">@Localizer[city.CityName]</option>
+                        }
+                    </select>
+
+                    <select class="btn btn-secondary dropdown-toggle" id="parcel-type-input">
+                        @foreach (var parcelType in Model.Parcels)
+                        {
+                            <option value="@Html.Raw(parcelType.ParcelTypeId)">@Html.Raw(parcelType.ParcelTypeName)</option>
+                        }
+                    </select>
+
+                    <input class="btn btn-secondary dropdown-toggle" type="number" id="weight-input" min="0.1" placeholder="@Localizer["Weight"]" max="@Html.Raw(RouteMetrics.MaxWeight)" required />
+
+                    <select class="btn btn-secondary dropdown-toggle" id="filter-type-input">
+                        @{
+                            var filterTypeNames = Enum.GetNames(typeof(FilterType));
+                            var filterTypeValues = (int[])Enum.GetValues(typeof(FilterType));
+                            for (int i = 0; i < filterTypeValues.Length; i++)
+                            {
+                                @:<option value="@Html.Raw(filterTypeValues[i])">@Localizer[filterTypeNames[i]]</option>
+                            }
+                        }
+
+                    </select>
+
+
+                </div>
+            </div>
+
+            <!-- Tab Footer -->
+            <div class="card-footer text-muted">
+
+                <!-- Material unchecked -->
+                <div class="custom-control custom-checkbox" style="margin:10px">
+                    <input type="checkbox" class="custom-control-input" id="recommended-input">
+                    <label class="custom-control-label" for="recommended-input">@Localizer["Add recommended delivery (additional fee)"]</label>
+                </div>
+
+                <button id="get-route-btn" type="button" class="btn btn-secondary" style="margin:15px;">@Localizer["Search"]</button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <!-- ---------------------------------------------------- Confirmation Tab -------------------------------------------------------------------------------------------->
+    <div class="tab-pane fade" id="nav-confirmation" role="tabpanel" aria-labelledby="nav-profile-tab" style="margin-top:15px;">
+
+        <!-- Order Card -->
+        <div class="card text-left">
+            <div class="card-header">
+                @Localizer﻿["Route Information"]
+            </div>
+
+            <div class="card-body">
+
+                <!-- Routing Table-->
+                <div class="table-responsive">
+                    <table id="route-info-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">@Localizer﻿["Origin"]</th>
+                                <th scope="col">@Localizer["Destination"]</th>
+                                <th scope="col">@Localizer["Duration"] (hrs)</th>
+                                <th scope="col">@Localizer["Price"] ($)</th>
+                                <th scope="col">@Localizer["Provider"]</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer text-muted" style="position:relative;">
+                <table id="route-total-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Total price:"] <span id="total-price-display"></span></th>
+                            <th>@Localizer["Total duration:"] <span id="total-duration-display"></span></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+        
+
+        <!-- Customer Information Card -->
+        <!--  Header-->
+        <div class="card text-left" style="margin-top:30px">
+            <div class="card-header">
+                @Localizer["Customer information"]
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <form id="user-details-form" role="form">
+
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="first-name">@Localizer﻿["First name"]</label>
+                            <input type="text" class="form-control" id="first-name" placeholder="@Localizer["First name"]">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="last-name">@Localizer["Last name"]</label>
+                            <input type="text" class="form-control" id="last-name" placeholder="@Localizer["Last name"]">
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="margin-top:25px;">
+                        <div class="col-md-6 mb-3">
+                            <label for="first-line-of-address">@Localizer["First Line of Address"]</label>
+                            <input type="text" class="form-control" id="first-line-of-address" placeholder="@Localizer["First Line of Address"]">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="second-line-of-address">@Localizer﻿["Second Line of Address"]</label>
+                            <input type="text" class="form-control" id="second-line-of-address" placeholder="@Localizer﻿["Second Line of Address"]">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city">@Localizer["City"]</label>
+                            <input type="text" class="form-control" id="city" placeholder="@Localizer["City"]">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="country">@Localizer["Country"]</label>
+                            <input type="text" class="form-control" id="country" placeholder="@Localizer["Country"]">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="zip-code">@Localizer["Zip"]</label>
+                            <input type="text" class="form-control" id="zip-code" placeholder="@Localizer["Zip"]">
+                        </div>
+                    </div>
+
+
+                    <div class="form-row" style="margin-top:25px">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone-number">@Localizer["Phone Number"]</label>
+                            <input type="text" class="form-control" id="phone-number" placeholder="">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email-address">@Localizer["E-mail Address"]</label>
+                            <input type="text" class="form-control" id="email-address" placeholder="example@gmail.com">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">@Localizer["Submit User Details"]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <!-- -------------------------------------------------------Receipt Tab ---------------------------------------------------------------------------------->
+    <div class="tab-pane fade" id="nav-receipt" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+        <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-home-tab" style="margin-top:15px;">
+
+            <!-- Order Card -->
+            <div class="card text-left">
+                <div class="card-header">
+                    @Localizer["The order has been completed successfully, the order ID is presented below."]
+                </div>
+
+                <div class="card-body">
+                    <input id="order-id" class="form-control" type="text" placeholder="#123..." readonly>
+                </div>
+
+                <!-- Tab Footer -->
+                <div class="card-footer text-muted" style="position:relative;">
+                    <button type="button" class="btn btn-secondary" style="margin:15px" onclick="window.location.href = '/Home/Order'">@Localizer["New Order"]</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+<script>
+        var routeInfo = {}
+
+        $(function() {
+            $("#get-route-btn").click(function() {
+                if (!$("#origin-input").val() || !$("#destination-input").val()) {
+                    alert("Invalid origin or destination") // TODO pretty error
+                    return
+                }
+
+                var fromCity = $("#origin-input option:selected").text()
+                var toCity = $("#destination-input option:selected").text()
+                if (fromCity == toCity) {
+                    alert("Cannot get route where origin equals destination") // TODO pretty error
+                    return
+                }
+
+                userDetails = {}
+                var parcelTypeId = $("#parcel-type-input").val()
+                var parcelTypeName = $("#parcel-type-input option:selected").text()
+                if (!parcelTypeId || !parcelTypeName) {
+                    alert("Parcel type is missing or invalid") // TODO pretty error
+                    return
+                }
+
+                var weight = $("#weight-input").val()
+                if (!weight || weight < 0) {
+                    alert("Weight input is missing or invalid") // TODO pretty error
+                    return
+                }
+
+                var filter = $("#filter-type-input").val()
+                if (!filter || filter < 0) {
+                    alert("Filter input is missing or invalid") // TODO pretty error
+                    return
+                }
+
+                var recommended = $("#recommended-input").is(":checked")
+                showThrobber()
+                $.get("/api/route/calculate",
+                    {
+                        fromName: fromCity,
+                        toName: toCity,
+                        parcelType: parcelTypeName,
+                        weight: weight,
+                        filter: filter,
+                        recommended: recommended
+                    },
+                    function(response) {
+                        hideThrobber()
+                        if (!response || !response.segments || !response.segments.length) {
+                            alert("Failed to identify a valid route") // TODO pretty error
+                            return
+                        }
+
+                        routeInfo = {
+                            segments: response.segments,
+                            totalPrice: response.totalPrice,
+                            totalDuration: response.totalDuration,
+                            fromCity: fromCity,
+                            toCity: toCity,
+                            parcelTypeId: parcelTypeId,
+                            weight: weight,
+                            filter: filter,
+                            recommended: recommended
+                        }
+
+                        $("#total-price-display").text(response.totalPrice)
+                        $("#total-duration-display").text(response.totalDuration)
+
+                        $("#route-info-table tbody tr").remove()
+                        for (var idx in response.segments) {
+                            var segment = response.segments[idx]
+                            var row = "<tr>"
+                            row += "<td>" + segment.fromCity + "</td>"
+                            row += "<td>" + segment.toCity + "</td>"
+                            row += "<td>" + segment.duration + "</td>"
+                            row += "<td>" + segment.price + "</td>"
+                            row += "<td>" + segment.provider + "<td>"
+                            row += "</tr>"
+                            $("#route-info-table tbody").append(row)
+                        }
+
+                        $('#nav-tab a[href="#nav-confirmation"]').tab('show') // Select tab by name
+                    })
+            })
+
+            $("#user-details-form").submit(function (eventData) {
+                eventData.preventDefault()
+
+                if (!routeInfo) {
+                    alert("Cannot place order without route information") // TODO pretty error
+                    return
+                }
+
+                var firstName = $(eventData.currentTarget[0]).val()
+                var lastName = $(eventData.currentTarget[1]).val()
+                var firstLineOfAddress = $(eventData.currentTarget[2]).val()
+                var secondLineOfAddress = $(eventData.currentTarget[3]).val()
+                var city = $(eventData.currentTarget[4]).val()
+                var country = $(eventData.currentTarget[5]).val()
+                var zipCode = $(eventData.currentTarget[6]).val()
+                var phoneNumber = $(eventData.currentTarget[7]).val()
+                var emailAddress = $(eventData.currentTarget[8]).val()
+
+                showThrobber()
+                addOrder(routeInfo.segments, firstName + " " + lastName, emailAddress, phoneNumber, firstLineOfAddress, secondLineOfAddress, zipCode, city,
+                    country, routeInfo.recommended, routeInfo.totalPrice, routeInfo.totalDuration, routeInfo.fromCity, routeInfo.toCity,
+                    routeInfo.weight, routeInfo.parcelTypeId, function (response) {
+
+                    hideThrobber()
+                    if (!response) {
+                        alert("Failed to place order. Please try again") // TODO: pretty error
+                        return
+                    }
+
+                    $("#order-id").val(response)
+                    $('#nav-tab a[href="#nav-receipt"]').tab('show') // Select tab by name
+                })
+            })
+        })
+</script>
+}
